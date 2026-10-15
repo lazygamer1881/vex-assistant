@@ -1,0 +1,62 @@
+VEX ASSISTANT 4.3 - THIRD-PARTY COMPONENTS
+==========================================
+Vex Assistant's own code and art are MIT licensed (LICENSE.txt). It ships with, or downloads,
+the components below, each under its own license. Full license texts for bundled Python
+packages are in python\Lib\site-packages\<package>.dist-info\ and python\LICENSE.txt.
+No component was modified. No GPL-only component is bundled.
+
+BUNDLED IN THE INSTALLER
+  Python 3.12 runtime ........................ PSF License 2.0
+  Microsoft Visual C++ runtime DLLs .......... Microsoft Visual C++ Redistributable license
+  numpy (+ OpenBLAS in numpy.libs) ........... BSD-3-Clause (OpenBLAS BSD-3-Clause; gfortran runtime: GPL-3.0 with GCC Runtime Library Exception)
+  faster-whisper ............................. MIT
+  huggingface_hub ............................ Apache-2.0
+  pywebview .................................. BSD-3-Clause
+  pythonnet, clr_loader ...................... MIT
+  bottle, proxy_tools ........................ MIT
+  Pillow ..................................... MIT-CMU (HPND)
+  psutil ..................................... BSD-3-Clause
+  sounddevice ................................ MIT  (PortAudio binary: MIT-style PortAudio license)
+  miniaudio (pyminiaudio) .................... MIT
+  edge-tts ................................... LGPL-3.0 (used unmodified as a separate library; replaceable)
+  pystray .................................... LGPL-3.0 (used unmodified as a separate library; replaceable)
+  websocket-client ........................... Apache-2.0
+  aiohttp, yarl, multidict, frozenlist,
+    aiosignal, propcache ..................... Apache-2.0
+  aiohappyeyeballs ........................... PSF-2.0
+  requests ................................... Apache-2.0
+  urllib3, charset-normalizer, attrs, h11,
+    anyio, tqdm, srt, tabulate, six,
+    pathvalidate, dlinfo, cffi ............... MIT (tqdm: MIT and MPL-2.0)
+  certifi .................................... MPL-2.0
+  idna, httpx, httpcore, fsspec, websockets,
+    segno, pypdf, colorama, click,
+    cloudpickle, pycparser, protobuf ......... BSD-3-Clause
+  pyyaml ..................................... MIT
+  packaging .................................. Apache-2.0 or BSD-2-Clause
+  typing_extensions .......................... PSF-2.0
+  filelock ................................... Unlicense
+  flatbuffers ................................ Apache-2.0
+  three.js (UI) .............................. MIT
+  MediaPipe Tasks Vision + hand landmarker ... Apache-2.0
+  Share Tech Mono font ....................... SIL Open Font License 1.1
+
+DOWNLOADED ON FIRST RUN (only when you click; from the official source; SHA-256 checked)
+  ctranslate2 4.8.2 (PyPI) ................... MIT
+  tokenizers 0.23.2 (PyPI) ................... Apache-2.0
+  onnxruntime 1.30.0 (PyPI) .................. MIT
+  vosk 0.3.45 (PyPI) ......................... Apache-2.0
+  Whisper base.en, CTranslate2 conversion
+    (Hugging Face: Systran/faster-whisper-base.en) ... MIT (OpenAI Whisper weights: MIT)
+  vosk-model-small-en-us-0.15 (alphacephei.com) .... Apache-2.0
+
+OPTIONAL, INSTALLED BY YOU (not part of Vex Assistant)
+  Ollama (ollama.com) ........................ MIT; installed with Ollama's own signed installer
+  AI models pulled through Ollama ............ their own licenses, e.g. qwen2.5:7b Apache-2.0;
+                                               qwen2.5:3b Qwen Research License (non-commercial use)
+  Microsoft Edge online voices (edge-tts) .... Microsoft service terms
+  Cloud AI services (your own API key) ....... that service's terms
+
+NOT INCLUDED IN THE PUBLIC BUILD
+  Piper / espeak-ng / phonemizer (GPL) and Kokoro voices were removed so the whole package stays
+  MIT-compatible. The offline fallback voice is the built-in Windows voice.

@@ -1,0 +1,120 @@
+<!doctype html><html><head><script>document.write('<script src="brand_cfg.js?'+Date.now()+'"><\/script>')</script><script src="brand.js"></script><meta charset="utf-8"><title>Vex Companion</title>
+<!-- Vex 3.9 blueprint companion HUD for non-main monitors. Original art. Opaque, read-only, no sounds, no camera, no face. -->
+<link rel="stylesheet" href="tokens.css">
+<style>
+@font-face{font-family:"VexMono";src:url("fonts/ShareTechMono-Regular.ttf") format("truetype")}
+:root{--c:hsl(212,100%,62%);--d:hsla(212,100%,70%,.55);--f:hsla(212,100%,70%,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#04163a;color:#cfe6ff;font-family:VexMono,Consolas,monospace;cursor:default;user-select:none}
+#g{position:fixed;inset:0;background:
+ linear-gradient(var(--f) 1px,transparent 1px) 0 0/8.33vw 8.33vw,linear-gradient(90deg,var(--f) 1px,transparent 1px) 0 0/8.33vw 8.33vw,
+ linear-gradient(rgba(120,170,255,.06) 1px,transparent 1px) 0 0/1.04vw 1.04vw,linear-gradient(90deg,rgba(120,170,255,.06) 1px,transparent 1px) 0 0/1.04vw 1.04vw,
+ radial-gradient(ellipse at 50% 45%,#0a2d66 0,#04163a 60%,#020c24 100%)}
+.fr{position:fixed;inset:.8vw;border:1px solid var(--d);pointer-events:none}
+.fr:before,.fr:after{content:"";position:absolute;width:2vw;height:2vw;border:2px solid var(--c)}
+.fr:before{left:-2px;top:-2px;border-right:0;border-bottom:0}.fr:after{right:-2px;bottom:-2px;border-left:0;border-top:0}
+.p{position:fixed;border:1px solid var(--d);background:rgba(4,22,58,.72);padding:.8vw 1vw}
+.h{font-size:.62vw;letter-spacing:.25em;color:var(--c);border-bottom:1px solid var(--f);padding-bottom:.3vw;margin-bottom:.5vw;display:flex;justify-content:space-between}
+.r{display:flex;justify-content:space-between;font-size:.68vw;line-height:1.75;color:#bcd6f5;white-space:nowrap;overflow:hidden}
+.r b{color:#fff;font-weight:normal;overflow:hidden;text-overflow:ellipsis;max-width:62%;text-align:right}
+#top{position:fixed;left:1.6vw;right:1.6vw;top:1.3vw;height:1.9vw;border:1px solid var(--d);display:flex;align-items:center;padding:0 1vw;font-size:.62vw;letter-spacing:.25em}
+#top span{margin-right:1.6vw}#top .t{color:var(--c)}#top .x{margin-left:auto;margin-right:0;color:#7fa6d6}
+#L{left:1.6vw;top:4.2vw;width:23vw}
+#C{left:27vw;top:4.2vw;width:46vw;height:31vw;border-color:var(--c);box-shadow:0 0 1.5vw var(--f) inset}
+#big{font-size:7.2vw;color:#fff;letter-spacing:.04em;line-height:1;text-shadow:0 0 1vw var(--d)}
+#big small{font-size:1.6vw;color:var(--c);letter-spacing:.2em;margin-left:1vw}
+#cs{display:flex;gap:2.4vw;margin:.8vw 0 .6vw}#cs div{font-size:.58vw;letter-spacing:.2em;color:#7fa6d6}#cs div b{display:block;font-size:1.3vw;color:#fff;font-weight:normal;letter-spacing:.05em;margin-top:.2vw}
+#gr{width:100%;height:12.5vw;border-top:1px solid var(--f)}
+#R{right:1.6vw;top:4.2vw;width:23vw}
+#clk{font-size:4.3vw;color:#fff;text-align:right;line-height:1;letter-spacing:.06em}#dt{text-align:right;font-size:.7vw;letter-spacing:.3em;color:var(--c);margin:.3vw 0 .6vw}
+#rad{display:block;width:9vw;height:9vw;margin:0 0 .6vw auto}
+#A{left:27vw;top:36.6vw;width:46vw;height:16vw;overflow:hidden}
+#A .r{line-height:1.9}#A .r i{color:var(--c);font-style:normal;margin-right:1vw;min-width:5vw}
+#BL{left:1.6vw;bottom:2.6vw;width:23vw}#BR{right:1.6vw;bottom:2.6vw;width:23vw}
+.gg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4vw;margin-bottom:.4vw}.gg svg{width:100%;height:auto}
+#ft{position:fixed;left:1.6vw;right:1.6vw;bottom:1.1vw;font-size:.55vw;letter-spacing:.3em;color:#6f93c4;display:flex;justify-content:space-between}
+#msg{display:none;position:fixed;left:27vw;top:4.2vw;width:46vw;height:31vw;background:#04163a;border:1px solid var(--c);padding:1.2vw;font-size:.85vw;white-space:pre-wrap;overflow:hidden;line-height:1.6}
+.bar{height:.25vw;background:var(--f);margin:-.1vw 0 .25vw}.bar i{display:block;height:100%;background:var(--c)}
+body.low .anim{animation:none!important}
+#amb{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
+body.amb #amb{display:block}body.amb #big,body.amb #cs,body.amb #gr{visibility:hidden}body.amb #C{background:transparent;box-shadow:none}
+@keyframes sw{to{transform:rotate(360deg)}}#sweep{transform-origin:50px 50px;animation:sw 4s linear infinite}
+</style></head><body class="comp">
+<div id="g" class="thgrid"></div><div class="fr"></div>
+<div id="top"><span class="t">V.E.X</span><span>// COMPANION BLUEPRINT DISPLAY</span><span id="mon">MONITOR 1</span><span class="x" id="tmode">MODE BLUE · ASSISTANT</span></div>
+<div class="p" id="L"><div class="h"><span>SYSTEM GAUGES</span><span id="lt">LIVE</span></div>
+ <div class="gg" id="gg"></div><div id="sys"></div></div>
+<div class="p" id="C"><canvas id="amb"></canvas><div class="h"><span id="ch1">SYSTEM HEALTH</span><span id="since">LIVE · LAST 10 MIN</span></div>
+ <div id="big">--<small>ALL SYSTEMS</small></div>
+ <div id="cs"><div>CPU<b id="vid">--</b></div><div>RAM<b id="gain">--</b></div><div>GPU TEMP<b id="days">--</b></div><div>OPEN TASKS<b id="goal">--</b></div></div>
+ <svg id="gr" viewBox="0 0 1000 250" preserveAspectRatio="none"></svg></div>
+<div id="msg"></div>
+<div class="p" id="R"><div id="clk">--:--:--</div><div id="dt"></div>
+ <svg id="rad" viewBox="0 0 100 100"><g fill="none" stroke="var(--d)" stroke-width=".6"><circle cx="50" cy="50" r="48"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="16"/><path d="M50 2V98M2 50H98"/></g>
+ <g id="sweep" class="anim"><path d="M50 50L50 2A48 48 0 0 1 84 16Z" fill="var(--f)"/><path d="M50 50V2" stroke="var(--c)" stroke-width=".8"/></g>
+ <circle cx="66" cy="34" r="1.4" fill="#fff"/><circle cx="30" cy="62" r="1.1" fill="var(--c)"/><circle cx="58" cy="74" r="1" fill="var(--c)"/></svg>
+ <div class="h"><span>WEATHER</span><span id="wxs">--</span></div><div id="wx"></div></div>
+<div class="p" id="A"><div class="h"><span>ACTIVITY LOG</span><span id="an">0</span></div><div id="feed"></div></div>
+<div class="p" id="BL"><div class="h"><span>TASK QUEUE</span><span id="tn">0</span></div><div id="todo"></div></div>
+<div class="p" id="BR"><div class="h"><span>REMINDERS</span><span id="rn">0</span></div><div id="rem"></div></div>
+<div id="ft"><span>VEX 4.3 // COMPANION HUD // READ-ONLY</span><span>CLICK-THROUGH · BEHIND WINDOWS · AUTO-HIDES IN COMBAT / VR</span><span id="up">UPTIME --</span></div>
+<script src="themes.js"></script><script src="intro41.js"></script>
+<script>
+window.vexMon=(n,w,h)=>{document.getElementById('mon').textContent='MONITOR '+n+' · '+w+'×'+h};vexMon(1,screen.width*(devicePixelRatio||1)|0,screen.height*(devicePixelRatio||1)|0);
+const $=id=>document.getElementById(id),E=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const row=(k,v)=>`<div class="r"><span>${E(k)}</span><b>${E(v)}</b></div>`;
+function gauge(lbl,v){v=Math.max(0,Math.min(100,+v||0));const a=v/100*270,r=40,rad=d=>(d-225)*Math.PI/180,x=50+r*Math.cos(rad(a)),y=50+r*Math.sin(rad(a));
+ return `<svg viewBox="0 0 100 100"><path d="M${50+r*Math.cos(rad(0))} ${50+r*Math.sin(rad(0))}A40 40 0 1 1 ${50+r*Math.cos(rad(270))} ${50+r*Math.sin(rad(270))}" fill="none" stroke="var(--f)" stroke-width="5"/>
+ ${v>0?`<path d="M${50+r*Math.cos(rad(0))} ${50+r*Math.sin(rad(0))}A40 40 0 ${a>180?1:0} 1 ${x} ${y}" fill="none" stroke="var(--c)" stroke-width="5"/>`:''}
+ <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="17" font-family="VexMono">${Math.round(v)}%</text><text x="50" y="80" text-anchor="middle" fill="#7fa6d6" font-size="9" letter-spacing="2" font-family="VexMono">${lbl}</text></svg>`}
+function fmt(n){return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(2)+'K':String(n)}
+const HIST=[];
+// 4.1: ambient, mode-themed core for the companion (visual only: no mode name, no mode details)
+const AMB={m:'blue'};(function(){const c=$('amb'),g=c.getContext('2d');let last=0,T=0;
+ const COL={red:'255,58,74',green:'111,240,160',purple:'192,140,255',gold:'240,192,96',pink:'255,112,208',white:'242,246,255',black:'163,58,58'};
+ function f(ts){requestAnimationFrame(f);if(!document.body.classList.contains('amb')||document.body.classList.contains('i41on')||ts-last<33)return;T+=Math.min(.1,(ts-last)/1000);last=ts;
+  const W=c.clientWidth,H=c.clientHeight;if(c.width!==W||c.height!==H){c.width=W;c.height=H;}g.clearRect(0,0,W,H);const m=AMB.m,k=COL[m]||'95,212,255',cx=W/2,cy=H/2,R=Math.min(W,H)*.36;
+  const rg=g.createRadialGradient(cx,cy,0,cx,cy,R*1.4);rg.addColorStop(0,`rgba(${k},.35)`);rg.addColorStop(.3,`rgba(${k},.10)`);rg.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=rg;g.fillRect(0,0,W,H);
+  g.lineWidth=1.5;
+  if(m=='green'){for(let i=0;i<6;i++){const r=R*(.3+i*.14)*(1+.04*Math.sin(T*.8+i));g.strokeStyle=`rgba(${k},${.5-i*.07})`;g.beginPath();g.ellipse(cx,cy,r*1.2,r*.85,0,0,6.283);g.stroke();}}
+  else if(m=='purple'){for(let i=0;i<4;i++){g.strokeStyle=`rgba(${k},${.7-i*.15})`;g.lineWidth=3-i*.5;const r=R*(.45+i*.17),a=T*(i%2?-.6:.8)+i;g.beginPath();g.arc(cx,cy,r,a,a+2.2);g.stroke();g.beginPath();g.arc(cx,cy,r,a+3.14,a+4.6);g.stroke();}}
+  else if(m=='gold'){for(let j=0;j<2;j++){g.strokeStyle=`rgba(${k},${j?.35:.8})`;g.beginPath();for(let i=0;i<=6;i++){const a=i/6*6.283+T*(j?-.15:.2),r=R*(j?.95:.6);i?g.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):g.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);}g.stroke();}
+   for(let i=0;i<72;i++){const a=i/72*6.283+T*.05,r1=R*1.05,r2=R*(i%6?1.1:1.18);g.strokeStyle=`rgba(${k},.45)`;g.beginPath();g.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);g.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);g.stroke();}}
+  else if(m=='pink'){const sg=g.createLinearGradient(0,cy-R*.7,0,cy+R*.7);sg.addColorStop(0,'rgba(255,211,110,.75)');sg.addColorStop(1,'rgba(255,79,168,.6)');g.save();g.beginPath();g.arc(cx,cy,R*.7,0,6.283);g.clip();g.fillStyle=sg;g.fillRect(cx-R,cy-R,R*2,R*2);
+   g.globalCompositeOperation='destination-out';for(let i=0;i<6;i++){g.fillRect(cx-R,cy+R*(.05+i*.12)+((T*8)%(R*.12)),R*2,2+i*1.5);}g.restore();g.strokeStyle=`rgba(${k},.4)`;g.beginPath();g.arc(cx,cy,R*.95,0,6.283);g.stroke();}
+  else if(m=='white'){g.strokeStyle=`rgba(${k},.6)`;[.35,.6,.9].forEach((q,i)=>{g.setLineDash(i==1?[4,6]:[]);g.beginPath();g.arc(cx,cy,R*q,0,6.283);g.stroke();});g.setLineDash([]);g.beginPath();g.moveTo(cx-R*1.2,cy);g.lineTo(cx+R*1.2,cy);g.moveTo(cx,cy-R*1.1);g.lineTo(cx,cy+R*1.1);g.stroke();
+   const sy=cy-R+((T*60)%(2*R));g.fillStyle=`rgba(${k},.25)`;g.fillRect(cx-R,sy,2*R,2);}
+  else if(m=='black'){g.strokeStyle=`rgba(${k},.35)`;g.beginPath();g.arc(cx,cy,R*.5*(1+.03*Math.sin(T*.5)),0,6.283);g.stroke();}
+  else if(m=='red'){g.strokeStyle=`rgba(${k},.7)`;g.beginPath();g.arc(cx,cy,R*.7,T,T+1.2);g.stroke();g.beginPath();g.arc(cx,cy,R*.7,T+3.14,T+4.3);g.stroke();}
+  const cg=g.createRadialGradient(cx,cy,0,cx,cy,R*.22);cg.addColorStop(0,'rgba(255,255,255,.95)');cg.addColorStop(.4,`rgba(${k},.8)`);cg.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=cg;g.beginPath();g.arc(cx,cy,R*.22*(1+.05*Math.sin(T*2)),0,6.283);g.fill();}
+ requestAnimationFrame(f);})();
+
+function graph(){const s=$('gr');let g='';for(let i=1;i<10;i++)g+=`<line x1="${i*100}" y1="0" x2="${i*100}" y2="250" stroke="rgba(120,170,255,.12)"/>`;for(let i=1;i<5;i++)g+=`<line x1="0" y1="${i*50}" x2="1000" y2="${i*50}" stroke="rgba(120,170,255,.12)"/>`;
+ const line=(k,op)=>{if(HIST.length<2)return '';const d=HIST.map((p,i)=>[(i/(HIST.length-1)*1000).toFixed(1),(240-(+p[k]||0)*2.2).toFixed(1)].join(',')).join(' ');return `<polyline points="${d}" fill="none" stroke="var(--c)" stroke-opacity="${op}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;};
+ g+=line('cpu',1)+line('ram',.45)+`<text x="8" y="22" fill="#7fa6d6" font-size="16" font-family="VexMono">CPU ━  RAM ┅  · 100%</text>`;s.innerHTML=g}
+function setMode(m,c,n){if(c){const hs=c.match(/hsl\((\d+)/);const r=document.documentElement.style;
+ if(hs){r.setProperty('--c',c);r.setProperty('--d',`hsla(${hs[1]},100%,70%,.55)`);r.setProperty('--f',`hsla(${hs[1]},100%,70%,.18)`)}
+ else{r.setProperty('--c',c);r.setProperty('--d','rgba(200,215,235,.45)');r.setProperty('--f','rgba(200,215,235,.14)')}}
+ $('tmode').textContent=(m&&m!=='blue')?'AMBIENT · MODE-THEMED':'MODE BLUE · ASSISTANT';document.body.classList.toggle('amb',!!m&&m!=='blue');AMB.m=m||'blue';$('ch1').textContent=AMB.m!=='blue'?'CORE // AMBIENT':'SYSTEM HEALTH';$('since').textContent=AMB.m!=='blue'?'':'LIVE · LAST 10 MIN'}
+async function poll(){let d;try{d=await window.pywebview.api.bphud()}catch(e){return}if(!d)return;
+ setMode(d.mode,d.mcol,d.mname);const st=d.st||{},P=!!d.priv;
+ $('gg').innerHTML=gauge('CPU',st.cpu)+gauge('RAM',st.ram)+gauge('GPU',st.gpu)+gauge('VRAM',st.vram)+gauge('DISK',st.disk_pct)+gauge('TEMP',Math.min(100,st.gpu_temp||0));
+ $('sys').innerHTML=row('GPU TEMP',(st.gpu_temp!=null?st.gpu_temp+'°C':'--'))+row('NET ↓ / ↑',(st.net_down||'0')+' / '+(st.net_up||'0'))+row('RAM INSTALLED',(st.ram_total||'--')+' GB')+row('DISK FREE',(st.disk_free||'--')+' GB')+row('BRAIN',d.llm||'--')+row('SPEECH',d.stt||'--')+row('MIC',d.mic||'--')+row('CAMERA','OFF');
+ const hl=Math.max(0,Math.min(100,Math.round(100-0.22*(+st.cpu||0)-0.22*(+st.ram||0)-0.12*(+st.gpu||0)-((+st.gpu_temp||0)>80?15:0))));
+ HIST.push({cpu:+st.cpu||0,ram:+st.ram||0});while(HIST.length>200)HIST.shift();
+ $('big').innerHTML=hl+'%<small>ALL SYSTEMS</small>';$('vid').textContent=(st.cpu??'--')+'%';$('gain').textContent=(st.ram??'--')+'%';
+ $('days').textContent=st.gpu_temp!=null?st.gpu_temp+'°C':'--';$('goal').textContent=P?'--':(d.todos||[]).length;graph();
+ const w=d.wx||{};$('wxs').textContent=w.temp!=null?w.temp+'°'+(w.unit||'F'):'--';
+ $('wx').innerHTML=P?row('HIDDEN','STEALTH MODE'):row('CONDITIONS',String(w.desc||'--').toUpperCase())+row('HI / LO',(w.hi??'--')+'° / '+(w.lo??'--')+'°')+row('WIND',w.wind||'--');
+ const td=P?[]:(d.todos||[]),rm=P?[]:(d.rem||[]),fd=P?[]:(d.feed||[]);
+ $('tn').textContent=td.length;$('todo').innerHTML=td.length?td.map((t,i)=>row(String(i+1).padStart(2,'0'),t)).join(''):row(P?'HIDDEN':'QUEUE',P?'STEALTH MODE':'NO OPEN TASKS');
+ $('rn').textContent=rm.length;$('rem').innerHTML=rm.length?rm.map((t,i)=>row(String(i+1).padStart(2,'0'),t)).join(''):row(P?'HIDDEN':'STATUS',P?'STEALTH MODE':'NONE SET');
+ $('an').textContent=fd.length;$('feed').innerHTML=fd.length?fd.map(f=>`<div class="r"><span><i>${E(f.t)}</i>${E(String(f.kind||'').toUpperCase())}</span><b>${E(f.text)}</b></div>`).join(''):row('LOG',P?'HIDDEN IN STEALTH MODE':'STANDING BY');
+ const mg=$('msg');if(d.msg&&!P){mg.style.display='block';mg.innerHTML=`<div class="h"><span>${E(d.msg.title)}</span><span>VEX OUTPUT</span></div>`+E(d.msg.text)}else mg.style.display='none';
+ const u=d.up||0;$('up').textContent='PC UPTIME '+Math.floor(u/3600)+'H '+String(Math.floor(u%3600/60)).padStart(2,'0')+'M';
+ document.body.classList.toggle('low',d.mode==='red');window.vexTheme&&vexTheme(d)}
+function tick(){const n=new Date();$('clk').textContent=n.toTimeString().slice(0,8);$('dt').textContent=n.toDateString().toUpperCase()}
+tick();setInterval(tick,1000);
+function go(){poll();setInterval(poll,3000)}
+if(window.pywebview&&window.pywebview.api)go();else window.addEventListener('pywebviewready',go);
+</script></body></html>
