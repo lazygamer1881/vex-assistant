@@ -1,0 +1,37 @@
+# Installer and release binaries stay on GitHub Releases, not in git
+*.exe
+*.msi
+*.part
+*.part[0-9]
+VexAssistant-Setup-*
+VexAssistant-*.zip
+SHA256SUMS.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets and runtime data
+.env
+.env.*
+logs/
+data/
+models/
+voicepack/
+cache/
+python/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp

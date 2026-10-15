@@ -1,0 +1,36 @@
+/* Vex 4.0 design system: one shared style file for every Vex surface (main window, companion HUD, mini orb, wizard, About).
+   Tokens: mode palettes, 8px grid, two fonts, glow levels, bracket corners, motion timings. Original art. */
+@font-face{font-family:"VexMono";src:url("fonts/ShareTechMono-Regular.ttf") format("truetype");font-display:swap}
+:root{
+ --vx-u:8px;--vx-r:2px;--vx-f-mono:VexMono,Consolas,monospace;--vx-f-ui:"Segoe UI",system-ui,sans-serif;
+ --vx-a:#5fd4ff;--vx-a2:#1a7dff;--vx-ink:#e9fbff;--vx-dim:#8fb6d9;--vx-bg:#020a18;--vx-glass:rgba(6,24,52,.62);--vx-line:rgba(120,190,255,.32);
+ --vx-glow1:0 0 8px rgba(95,212,255,.35);--vx-glow2:0 0 22px rgba(95,212,255,.45);
+ --vx-t-fast:.18s;--vx-t-med:.45s;--vx-t-slow:1.2s;--vx-ease:cubic-bezier(.2,.8,.2,1)}
+body[data-mode=red]{--vx-a:#ff4a5c;--vx-a2:#b3001b;--vx-line:rgba(255,80,100,.35);--vx-glass:rgba(40,4,10,.68)}
+body[data-mode=green]{--vx-a:#6ff0a0;--vx-a2:#1d9b57;--vx-line:rgba(120,230,160,.32);--vx-glass:rgba(4,30,18,.62)}
+body[data-mode=purple]{--vx-a:#c08cff;--vx-a2:#7a2cff;--vx-line:rgba(190,140,255,.35);--vx-glass:rgba(22,8,40,.64)}
+body[data-mode=gold]{--vx-a:#f0c060;--vx-a2:#b98516;--vx-line:rgba(240,192,96,.35);--vx-glass:rgba(22,16,4,.7)}
+body[data-mode=pink]{--vx-a:#ff70d0;--vx-a2:#c2188f;--vx-line:rgba(255,112,208,.35);--vx-glass:rgba(34,6,36,.62)}
+body[data-mode=white]{--vx-a:#f2f6ff;--vx-a2:#9fb3c2;--vx-line:rgba(233,243,255,.3);--vx-glass:rgba(14,18,22,.72)}
+body[data-mode=black]{--vx-a:#a33a3a;--vx-a2:#5a1414;--vx-line:rgba(120,30,30,.35);--vx-glass:rgba(4,2,2,.86);--vx-ink:#b04444;--vx-dim:#6a2626}
+/* core colour follows the mode (2D orb overlay; the 3D core is tinted in index.html) */
+body[data-mode=red] #orb{filter:hue-rotate(165deg) saturate(1.4)}body[data-mode=green] #orb{filter:hue-rotate(-50deg)}
+body[data-mode=purple] #orb{filter:hue-rotate(80deg)}body[data-mode=gold] #orb{filter:hue-rotate(215deg) saturate(1.3)}
+body[data-mode=pink] #orb{filter:hue-rotate(125deg) saturate(1.3)}body[data-mode=white] #orb{filter:grayscale(1) brightness(1.3)}
+body[data-mode=black] #orb{filter:grayscale(1) sepia(1) hue-rotate(-40deg) saturate(3) brightness(.5)}
+.vx-glass{background:var(--vx-glass);border:1px solid var(--vx-line);backdrop-filter:blur(10px) saturate(1.2);box-shadow:var(--vx-glow1),inset 0 0 24px rgba(0,0,0,.25);color:var(--vx-ink);position:relative}
+.vx-br:before,.vx-br:after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--vx-a);pointer-events:none}
+.vx-br:before{left:-1px;top:-1px;border-right:0;border-bottom:0}.vx-br:after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+.vx-k{font:400 10px var(--vx-f-mono);letter-spacing:.32em;color:var(--vx-a);text-transform:uppercase}
+.vx-big{font:300 40px/1.05 var(--vx-f-mono);color:#fff;letter-spacing:.03em;text-shadow:var(--vx-glow2)}
+.vx-sub{font:400 11px var(--vx-f-mono);letter-spacing:.16em;color:var(--vx-dim)}
+.vx-row{display:flex;justify-content:space-between;gap:12px;font:12px/1.8 var(--vx-f-mono);color:var(--vx-dim)}.vx-row b{font-weight:400;color:var(--vx-ink)}
+.vx-btn{font:11px var(--vx-f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--vx-ink);background:transparent;border:1px solid var(--vx-line);padding:8px 16px;cursor:pointer;transition:all var(--vx-t-fast) var(--vx-ease)}
+.vx-btn:hover,.vx-btn.on{border-color:var(--vx-a);background:color-mix(in srgb,var(--vx-a) 18%,transparent);color:#fff}
+.vx-btn.p{background:var(--vx-a);color:#02101e;border-color:var(--vx-a)}
+.vx-badge{display:inline-block;font:10px var(--vx-f-mono);letter-spacing:.2em;padding:2px 8px;border:1px solid var(--vx-a);color:var(--vx-a)}
+.vx-in{font:14px var(--vx-f-ui);color:#fff;background:rgba(0,0,0,.35);border:1px solid var(--vx-line);padding:10px 12px;outline:none;width:100%}
+.vx-in:focus{border-color:var(--vx-a)}
+.vx-tog{display:inline-block;width:38px;height:20px;border:1px solid var(--vx-line);position:relative;cursor:pointer;vertical-align:middle}
+.vx-tog i{position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--vx-dim);transition:all var(--vx-t-fast)}
+.vx-tog.on{border-color:var(--vx-a)}.vx-tog.on i{left:20px;background:var(--vx-a)}

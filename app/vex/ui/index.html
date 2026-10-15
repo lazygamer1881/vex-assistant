@@ -1,0 +1,969 @@
+<!doctype html>
+<html><head><script>document.write('<script src="brand_cfg.js?'+Date.now()+'"><\/script>')</script><script src="brand.js"></script><script>(function(){let m="full";try{m=localStorage.getItem("vexMotion")||"full";}catch(e){}const os=matchMedia("(prefers-reduced-motion:reduce)").matches,rm=m=="reduced"||(m=="auto"&&os);document.documentElement.classList.toggle("rm",rm);window.vexRM=()=>rm;window.__osRM=os;})();</script><meta charset="utf-8"><title>Vex</title>
+<style>
+:root{--bg:#0a0a10;--panel:#12121b;--panel2:#181826;--line:#25233a;--text:#ece9ff;--dim:#8f8aa8;--p:#8b5cf6;--p2:#a855f7;--p3:#c084fc;--ok:#34d399;--warn:#fbbf24}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:"Segoe UI",Inter,system-ui,sans-serif;overflow:hidden;user-select:none}
+#app{display:flex;height:100%}
+nav{width:76px;background:#0d0d15;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:10px}
+.logo{width:42px;height:42px;border-radius:13px;background:radial-gradient(circle at 35% 30%,#d8b4fe,#8b5cf6 55%,#4c1d95);box-shadow:0 0 22px #8b5cf688;margin-bottom:18px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff}
+.nb{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:var(--dim);cursor:pointer;transition:.15s;position:relative}
+.nb:hover{background:var(--panel2);color:var(--text)}.nb.on{background:linear-gradient(135deg,#8b5cf633,#a855f722);color:var(--p3)}
+.nb.on:before{content:"";position:absolute;left:-14px;top:12px;width:4px;height:24px;border-radius:4px;background:var(--p2);box-shadow:0 0 10px var(--p2)}
+.nb svg{width:22px;height:22px}.nb .tip{position:absolute;left:58px;background:#1d1b2c;padding:4px 9px;border-radius:7px;font-size:12px;opacity:0;pointer-events:none;white-space:nowrap;transition:.15s}.nb:hover .tip{opacity:1}
+.spacer{flex:1}
+main{flex:1;display:flex;flex-direction:column;min-width:0}
+header{height:58px;display:flex;align-items:center;padding:0 26px;gap:12px;border-bottom:1px solid var(--line)}
+header h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.5px}header h1 span{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+.chips{margin-left:auto;display:flex;gap:8px}.chip{font-size:12px;padding:5px 10px;border-radius:20px;background:var(--panel);border:1px solid var(--line);color:var(--dim);display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:#555}.dot.g{background:var(--ok);box-shadow:0 0 6px var(--ok)}.dot.y{background:var(--warn)}.dot.p{background:var(--p2);box-shadow:0 0 6px var(--p2)}
+.page{flex:1;display:none;min-height:0}.page.on{display:flex}
+#home{gap:0}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-width:0}
+#orb{width:380px;height:380px}
+#stateText{font-size:15px;color:var(--dim);margin-top:4px;height:22px;letter-spacing:.3px}
+#hint{font-size:12px;color:#6d6888;margin-top:6px}
+.inputbar{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:min(560px,90%);display:flex;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px}
+.inputbar input{flex:1;background:transparent;border:0;outline:0;color:var(--text);font-size:14px;padding:8px 10px;user-select:text}
+.btn{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:11px;padding:8px 14px;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--p)}.btn.p{background:linear-gradient(135deg,#8b5cf6,#a855f7);border:0;font-weight:600}
+.mic{width:40px;height:40px;padding:0;display:grid;place-items:center;border-radius:12px}.mic svg{width:18px}
+aside{width:340px;border-left:1px solid var(--line);display:flex;flex-direction:column;background:#0c0c14}
+aside h3{margin:0;padding:16px 18px 10px;font-size:12px;letter-spacing:1.5px;color:var(--dim);font-weight:600}
+#log{flex:1;overflow-y:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:8px}
+.m{max-width:88%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.4;user-select:text;animation:in .2s}
+.m.you{align-self:flex-end;background:#232036;border-bottom-right-radius:4px}.m.vex{align-self:flex-start;background:linear-gradient(135deg,#8b5cf62b,#a855f71f);border:1px solid #8b5cf644;border-bottom-left-radius:4px}
+.m small{display:block;font-size:10px;color:var(--dim);margin-bottom:2px;letter-spacing:.5px}
+@keyframes in{from{opacity:0;transform:translateY(5px)}}
+.scroll{flex:1;overflow-y:auto;padding:26px 34px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.card h4{margin:0 0 10px;font-size:14px;color:var(--p3)}.card div{font-size:13px;color:#cfcae6;padding:4px 0;border-bottom:1px dashed #23213400}
+.card div b{color:var(--text);font-weight:600}.card div i{color:var(--dim);font-style:normal}
+.form{max-width:760px;display:grid;grid-template-columns:220px 1fr;gap:12px 18px;align-items:center}
+.form label{font-size:13px;color:#cfcae6}.form small{grid-column:2;color:var(--dim);font-size:11.5px;margin-top:-8px}
+.form input,.form select{background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:9px 11px;font-size:13px;outline:0;user-select:text;width:100%}
+.form input:focus,.form select:focus{border-color:var(--p)}
+.sect{grid-column:1/-1;font-size:11px;letter-spacing:1.6px;color:var(--p3);margin-top:14px;border-top:1px solid var(--line);padding-top:16px}
+.toggle{width:44px;height:24px;border-radius:20px;background:#2a2840;position:relative;cursor:pointer}.toggle.on{background:var(--p)}
+.toggle:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.15s}.toggle.on:after{left:23px}
+.phv{font-size:13px;color:#cfcae6;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.sel{user-select:text;font-family:Consolas,monospace}
+.qr{background:#fff;border-radius:12px;padding:4px;line-height:0}.qr svg{width:220px;height:220px}
+#saveMsg{color:var(--ok);font-size:13px;margin-left:12px}
+.md p{margin:0 0 8px}.md p:last-child{margin-bottom:0}.md h3,.md h4,.md h5,.md h6{margin:10px 0 6px;color:var(--p3)}.md ul,.md ol{margin:4px 0 8px;padding-left:22px}.md li{margin:2px 0}
+.md code{background:#1f1c33;padding:1px 6px;border-radius:6px;font-family:Consolas,monospace;font-size:.92em;color:#e9d5ff}
+.md .code{background:#0b0a14;border:1px solid var(--line);border-radius:12px;margin:8px 0;overflow:hidden}.md .codeh{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#15132a;font-size:11px;color:var(--dim)}
+.md pre{margin:0;padding:12px;overflow-x:auto}.md pre code{background:none;padding:0;color:#e5e1ff;font-size:12.5px;line-height:1.5}
+.copy{background:#24203d;border:1px solid var(--line);color:var(--text);border-radius:7px;font-size:11px;padding:3px 9px;cursor:pointer}.copy:hover{border-color:var(--p)}
+.md table{border-collapse:collapse;margin:8px 0;font-size:13px}.md th,.md td{border:1px solid var(--line);padding:5px 9px}.md th{background:#1a1730}
+.md blockquote{border-left:3px solid var(--p);margin:6px 0;padding:2px 10px;color:#cfcae6}.md a{color:var(--p3)}
+
+#orb{width:250px;height:250px}
+.dash{flex:1;overflow-y:auto;padding:22px 26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:min-content;gap:14px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px;min-width:0}
+.w h4{margin:0 0 10px;font-size:12px;letter-spacing:1.4px;color:var(--dim);font-weight:600;display:flex;align-items:center;gap:8px}
+.w.hero{grid-column:1/3;grid-row:span 2;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2a1650 0%,var(--panel) 65%);position:relative;padding:18px}
+#greet{font-size:24px;font-weight:700;margin-top:2px;background:linear-gradient(90deg,#f3e8ff,#c084fc);-webkit-background-clip:text;color:transparent}
+.hero .inputbar{position:static;transform:none;margin-top:14px;width:min(560px,96%)}
+.wx{display:flex;align-items:center;gap:14px}.wx .t{font-size:38px;font-weight:700}.wx .d{color:#cfcae6;font-size:13px;line-height:1.5}
+.days{display:flex;gap:8px;margin-top:10px}.days div{flex:1;background:var(--panel2);border-radius:10px;padding:6px;font-size:11.5px;text-align:center;color:#cfcae6}
+.li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13.5px;border-bottom:1px solid #1d1b2c}.li:last-child{border:0}
+.li .x{margin-left:auto;color:var(--dim);cursor:pointer;opacity:.0}.li:hover .x{opacity:1}
+.cb{width:17px;height:17px;border-radius:6px;border:2px solid var(--p);cursor:pointer;flex:none}.cb.on{background:var(--p);box-shadow:0 0 8px var(--p)}
+.done{text-decoration:line-through;color:var(--dim)}
+.mini{display:flex;gap:6px;margin-top:8px}.mini input{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:7px 9px;font-size:12.5px;outline:0;user-select:text}
+.bar{height:7px;border-radius:5px;background:#24213a;overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#8b5cf6,#c084fc);box-shadow:0 0 8px #a855f7}
+.stat{font-size:12.5px;color:#cfcae6;display:flex;justify-content:space-between}
+.rc{padding:7px 9px;border-radius:10px;font-size:13px;cursor:pointer;color:#cfcae6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rc:hover{background:var(--panel2);color:var(--text)}
+#notif{position:fixed;top:70px;right:22px;z-index:9;display:flex;flex-direction:column;gap:8px}.toast{background:linear-gradient(135deg,#2b1a55,#1a1530);border:1px solid #8b5cf6aa;border-radius:14px;padding:12px 16px;max-width:340px;box-shadow:0 0 30px #8b5cf655;font-size:13.5px;animation:in .2s}
+.toast b{color:var(--p3);display:block;margin-bottom:3px}
+/* chat */
+#chat{min-height:0}
+.clist{width:250px;border-right:1px solid var(--line);background:#0c0c14;display:flex;flex-direction:column;padding:12px;gap:6px;min-height:0}
+.clist .items{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.ci{padding:8px 10px;border-radius:10px;font-size:13px;color:#cfcae6;cursor:pointer;display:flex;gap:6px;align-items:center}.ci span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci:hover{background:var(--panel2)}.ci.on{background:linear-gradient(135deg,#8b5cf633,#a855f722);color:var(--text)}.ci .x{opacity:0;color:var(--dim)}.ci:hover .x{opacity:1}
+.cmain{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+#msgs{flex:1;overflow-y:auto;padding:48px 0 24px}
+.cm{max-width:820px;margin:0 auto 18px;padding:0 28px;display:flex;gap:12px;user-select:text}
+.av{width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:13px;font-weight:700}
+.cm.you .av{background:#2a2740}.cm.vex .av{background:radial-gradient(circle at 35% 30%,#d8b4fe,#8b5cf6 55%,#4c1d95);box-shadow:0 0 12px #8b5cf699}
+.bub{flex:1;min-width:0;font-size:14.5px;line-height:1.55}.cm.you .bub{background:#1d1a2e;border-radius:14px;padding:10px 14px;flex:0 1 auto;margin-left:auto}
+.cm.you{flex-direction:row-reverse}
+.meta{font-size:11px;color:var(--dim);margin-top:6px;display:flex;gap:10px;align-items:center}.meta .copy{opacity:.6}.cm:hover .meta .copy{opacity:1}
+.confirm{margin-top:10px;display:flex;gap:8px;align-items:center;font-size:13px;background:#2a1c10;border:1px solid #fbbf2466;border-radius:12px;padding:9px 12px;color:#fde68a}
+.confirm .btn{padding:6px 14px}
+.typing{display:inline-flex;gap:4px;padding:6px 0}.typing i{width:7px;height:7px;border-radius:50%;background:var(--p3);animation:bl 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bl{50%{opacity:.25;transform:translateY(-3px)}}
+.composer{max-width:820px;width:calc(100% - 56px);margin:0 auto 18px;display:flex;gap:8px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 0 30px #8b5cf61a}
+.composer:focus-within{border-color:#8b5cf6aa}
+.composer textarea{flex:1;background:transparent;border:0;outline:0;color:var(--text);font:14.5px "Segoe UI",system-ui;resize:none;max-height:220px;padding:8px 10px;user-select:text}
+.empty{text-align:center;margin-top:12vh;color:var(--dim)}.empty h2{color:var(--text);font-size:26px;margin:10px 0 18px}
+.sugg{display:grid;grid-template-columns:repeat(2,minmax(0,260px));gap:10px;justify-content:center;margin-top:10px}.sugg div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px;cursor:pointer;text-align:left;color:#cfcae6}.sugg div:hover{border-color:var(--p)}
+.brainchip{position:absolute;top:10px;right:18px;font-size:11.5px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:4px 10px}
+/* memory */
+.memrow{display:flex;gap:8px;align-items:center;margin-bottom:8px}.memrow input{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:9px 11px;font-size:13.5px;outline:0;user-select:text}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#2a2840;border-radius:8px}
+
+/* ===== Vex 2.2 holographic HUD (original) ===== */
+:root{--bg:#03080f;--panel:rgba(8,24,38,.62);--panel2:#0b2233;--line:rgba(56,189,248,.22);--text:#dff6ff;--dim:#6fa3bd;--p:#22d3ee;--p2:#38bdf8;--p3:#7dd3fc}
+body{background:radial-gradient(ellipse at 50% 35%,#06263a 0%,#03080f 60%)}
+nav,aside{background:rgba(3,12,20,.85)!important}
+.logo{background:radial-gradient(circle at 35% 30%,#cffafe,#22d3ee 50%,#0c4a6e)!important;box-shadow:0 0 22px #22d3ee88!important}
+.nb.on{background:linear-gradient(135deg,#22d3ee33,#38bdf822)!important}
+.btn.p{background:linear-gradient(135deg,#0891b2,#38bdf8)!important;color:#011}
+header h1{color:#a5f3fc;text-shadow:0 0 10px #22d3ee88}
+.dash.hud{position:relative;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);grid-template-areas:"clk hero wx" "stats hero sys" "rem hero todo" "home recent log" "feed feed mem"}
+#wFeed{grid-area:feed}#wMem{grid-area:mem}.fi{display:flex;gap:10px;padding:4px 0;border-bottom:1px dashed rgba(56,189,248,.12)}.fi b{color:#67e8f9;font-weight:500;min-width:64px}
+.dash.hud:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:
+ linear-gradient(rgba(56,189,248,.05) 1px,transparent 1px) 0 0/34px 34px,linear-gradient(90deg,rgba(56,189,248,.05) 1px,transparent 1px) 0 0/34px 34px,
+ repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+.dash.hud:after{content:"";position:fixed;left:0;right:0;top:0;height:120px;pointer-events:none;background:linear-gradient(transparent,rgba(56,189,248,.06),transparent);animation:sweep 9s linear infinite;will-change:transform}
+@keyframes sweep{from{transform:translateY(-120px)}to{transform:translateY(100vh)}}
+.hud .w{position:relative;z-index:1;border-radius:6px;background:var(--panel);border:1px solid var(--line);box-shadow:inset 0 0 24px rgba(34,211,238,.05);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.hud .w h4{color:#67e8f9;letter-spacing:2.2px;font-size:11px}.hud .w h4:before{content:"";width:6px;height:6px;background:#22d3ee;box-shadow:0 0 8px #22d3ee}
+.hud .w.hero{grid-area:hero;background:radial-gradient(circle at 50% 42%,rgba(14,116,144,.35),transparent 62%);border-color:transparent;box-shadow:none;clip-path:none}
+#wClock{grid-area:clk}#wWx{grid-area:wx}.hud .wide{grid-area:log}
+.big{font:300 46px/1 "Segoe UI",system-ui;color:#e0faff;text-shadow:0 0 16px #22d3ee99;letter-spacing:2px}.sub{color:var(--dim);margin-top:6px;letter-spacing:1px}
+#greet{background:linear-gradient(90deg,#e0f2fe,#22d3ee)!important;-webkit-background-clip:text!important}
+.bar{background:rgba(56,189,248,.12)!important}.bar i{background:linear-gradient(90deg,#0891b2,#67e8f9)!important;box-shadow:0 0 8px #22d3ee}
+.kv{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:1px dashed rgba(56,189,248,.12)}.kv b{color:#a5f3fc;font-weight:500}
+
+/* ===== Vex 2.6 clean dashboard ===== */
+.dash.hud:after{display:none}
+.dash.hud:before{opacity:.35}
+#home.on{flex-direction:column}#home .dash.hud{flex:1;overflow:auto}
+.tabs{flex:none;align-self:center;display:flex;gap:6px;justify-content:center;margin:2px 0 14px;position:relative;z-index:2}
+.tabs button{background:transparent;border:1px solid rgba(56,189,248,.18);color:var(--dim);padding:7px 18px;border-radius:999px;font:500 13px "Segoe UI",system-ui;letter-spacing:.6px;cursor:pointer}
+.tabs button.on{background:rgba(34,211,238,.12);color:#cffafe;border-color:rgba(34,211,238,.5)}
+.dash.hud{gap:16px!important;align-content:start}
+.dash.hud .w{display:none;padding:18px 20px!important;min-width:0;overflow:hidden}
+.dash.hud[data-tab=home] .w[data-t~=home],.dash.hud[data-tab=system] .w[data-t~=system],.dash.hud[data-tab=activity] .w[data-t~=activity],.dash.hud[data-tab=memory] .w[data-t~=memory]{display:block}
+.dash.hud[data-tab=home]{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) minmax(0,1fr);grid-template-areas:"clk hero todo" "rem hero log"}
+.dash.hud[data-tab=system]{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"stats sys" "idx home"}
+.dash.hud[data-tab=activity]{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-areas:"feed log" "feed recent"}
+.dash.hud[data-tab=memory]{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"mem notes"}
+#wClock{grid-area:clk}#wRem{grid-area:rem}#wTodo{grid-area:todo}#wLog{grid-area:log}#wStats{grid-area:stats}#wSys{grid-area:sys}#wIdx{grid-area:idx}#wHome{grid-area:home}#wFeed{grid-area:feed}#wRecent{grid-area:recent}#wMem{grid-area:mem}#wNotes{grid-area:notes}
+.hud .w{clip-path:none!important;border-radius:14px!important;box-shadow:none!important;background:rgba(8,24,38,.5)!important}
+.hud .w h4{font-size:12px!important;letter-spacing:1.6px!important;text-transform:uppercase;margin:0 0 12px!important;color:#7dd3fc!important}
+.hud .w h4:before{box-shadow:none!important;opacity:.8}
+.hud .w.hero{grid-row:span 2;background:radial-gradient(circle at 50% 40%,rgba(14,116,144,.22),transparent 65%)!important;border:0!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.dash.hud:not([data-tab=home]) .w.hero{display:none!important}
+.big{font-size:44px!important;text-shadow:none!important}
+#wWx{margin-top:14px;padding-top:12px;border-top:1px solid rgba(56,189,248,.12)}
+.kv,.fi{font-size:13.5px!important;line-height:1.45;gap:12px}.kv span,.kv b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.kv b{text-align:right;max-width:62%}
+.sub{line-height:1.5}
+.bar i{box-shadow:none!important}
+
+/* ===== Vex 2.6.1 responsive / fullscreen ===== */
+html{font-size:clamp(13px,calc(.55vw + .42vh),22px)}body{font-size:1rem!important}
+header{padding:clamp(8px,1vh,18px) clamp(14px,1.4vw,36px)!important;user-select:none}
+header h1{font-size:1.3rem!important}header h1 span{font-size:.95rem!important}
+.chip{font-size:.85rem!important}.fsbtn{cursor:pointer;background:transparent;color:var(--dim);font:inherit}.fsbtn:hover{color:#cffafe;border-color:rgba(34,211,238,.5)}
+#home .dash.hud{max-width:none!important;width:100%;margin:0!important;padding:clamp(10px,1.4vw,40px)!important;gap:clamp(10px,1.2vw,30px)!important;
+  grid-template-rows:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr)!important;overflow:auto;box-sizing:border-box}
+.dash.hud[data-tab=memory]{grid-template-rows:minmax(0,1fr)!important}
+.dash.hud .w{padding:clamp(14px,1.3vw,32px)!important;display:none;flex-direction:column;min-height:0}
+.dash.hud[data-tab=home] .w[data-t~=home],.dash.hud[data-tab=system] .w[data-t~=system],.dash.hud[data-tab=activity] .w[data-t~=activity],.dash.hud[data-tab=memory] .w[data-t~=memory]{display:flex!important}
+#rem,#todo,#log,#feed,#mem2,#notes,#recent,#stats,#sys,#idx,#home2{overflow:auto;min-height:0}
+#stats *,#rem *,#todo *,#recent *,#feed *,#mem2 *,#notes *,#home2 *,.wx .d{font-size:1rem!important}.days div{font-size:.9rem!important}
+#log{max-height:none!important;flex:1}
+.hud .w h4{font-size:.8rem!important;margin-bottom:.9em!important}
+.kv,.fi,.sub,#rem,#todo,#recent{font-size:1rem!important}
+.big{font-size:clamp(36px,3.6vw,96px)!important}
+#dte{font-size:.95rem}
+#orb{width:min(30vw,48vh)!important;height:min(30vw,48vh)!important;max-width:100%}
+#greet{font-size:clamp(20px,1.9vw,48px)!important}#stateText{font-size:1.05rem!important}#hint{font-size:.85rem!important}
+.inputbar{width:min(92%,46rem)!important}.inputbar input{font-size:1rem!important}
+.mini input,.btn{font-size:.9rem!important}
+.tabs button{font-size:.95rem!important;padding:.5em 1.4em!important}
+.wx .t{font-size:clamp(28px,2.6vw,64px)!important}.days div{font-size:.85rem!important}
+.bar{height:clamp(5px,.5vh,9px)!important}
+body.fs nav{width:clamp(56px,3.4vw,84px)}
+
+/* ===== Vex 2.6.1 futuristic HUD (original art) ===== */
+@font-face{font-family:"VexMono";src:url("fonts/ShareTechMono-Regular.ttf") format("truetype");font-display:swap}
+:root{--glow:rgba(34,211,238,.55);--edge:rgba(103,232,249,.55);--cut:clamp(10px,1vw,22px)}
+#bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+main{position:relative;z-index:1}
+.big,.num,.kv b,.gn,#clk,#dte,.wx .t,.days div,.fi b,.chip,.tabs button,.hud .w h4{font-family:"VexMono",ui-monospace,Consolas,monospace!important}
+.hud .w{--c:var(--cut);clip-path:polygon(var(--c) 0,calc(100% - var(--c)) 0,100% var(--c),100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,var(--c) 100%,0 calc(100% - var(--c)),0 var(--c))!important;
+  border-radius:0!important;border:1px solid rgba(56,189,248,.28)!important;background:linear-gradient(160deg,rgba(10,34,52,.62),rgba(4,16,26,.55))!important;
+  box-shadow:inset 0 0 0 1px rgba(103,232,249,.05),inset 0 0 30px rgba(34,211,238,.06)!important}
+.hud .w:not(.hero)::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(var(--edge),var(--edge)) 0 var(--c)/1px 18px no-repeat,linear-gradient(var(--edge),var(--edge)) var(--c) 0/18px 1px no-repeat,
+  linear-gradient(var(--edge),var(--edge)) 100% calc(100% - var(--c) - 18px)/1px 18px no-repeat,linear-gradient(var(--edge),var(--edge)) calc(100% - var(--c) - 18px) 100%/18px 1px no-repeat,
+  linear-gradient(45deg,transparent calc(50% - .6px),var(--edge) 50%,transparent calc(50% + .6px)) 0 0/var(--c) var(--c) no-repeat,
+  linear-gradient(45deg,transparent calc(50% - .6px),var(--edge) 50%,transparent calc(50% + .6px)) 100% 100%/var(--c) var(--c) no-repeat,
+  linear-gradient(-45deg,transparent calc(50% - .6px),rgba(56,189,248,.3) 50%,transparent calc(50% + .6px)) 100% 0/var(--c) var(--c) no-repeat,
+  linear-gradient(-45deg,transparent calc(50% - .6px),rgba(56,189,248,.3) 50%,transparent calc(50% + .6px)) 0 100%/var(--c) var(--c) no-repeat;filter:drop-shadow(0 0 3px var(--glow))}
+.hud .w h4{display:flex;align-items:center;gap:.6em;color:#a5f3fc!important;text-shadow:0 0 6px rgba(34,211,238,.45)}
+.hud .w h4::after{content:"";flex:1;height:6px;margin-left:.4em;opacity:.45;
+  background:repeating-linear-gradient(90deg,#67e8f9 0 1px,transparent 1px 7px) bottom/100% 4px no-repeat,linear-gradient(#67e8f9,#67e8f9) bottom/100% 1px no-repeat}
+.hud .w h4 .rd{font-size:.72rem;opacity:.6;letter-spacing:1px;text-shadow:none}
+.big{color:#e6fbff!important;text-shadow:0 0 14px rgba(34,211,238,.45)!important;letter-spacing:.06em!important}
+.gauges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(6px,1vw,22px);margin:.2em 0 .8em}
+.gauge{position:relative;text-align:center}.gauge svg{width:100%;max-width:clamp(90px,9vw,210px);display:block;margin:0 auto;overflow:visible}
+.gauge .gt line{stroke:#67e8f9;stroke-width:.8;opacity:.45}.gauge .gb{fill:none;stroke:rgba(56,189,248,.14);stroke-width:7}
+.gauge .gv{fill:none;stroke:#22d3ee;stroke-width:7;stroke-linecap:butt;filter:drop-shadow(0 0 3px #22d3ee);transition:stroke-dasharray .8s ease}
+.gauge.hot .gv{stroke:#f59e0b;filter:drop-shadow(0 0 3px #f59e0b)}
+.gauge .gn{position:absolute;left:0;right:0;top:34%;font-size:clamp(18px,1.8vw,44px);color:#e6fbff;text-shadow:0 0 8px rgba(34,211,238,.5)}.gauge .gn i{font-style:normal;font-size:.5em;opacity:.7}
+.gauge .gl{font:600 .78rem "VexMono",monospace;letter-spacing:2px;color:#7dd3fc;margin-top:-.4em}.gauge .gs{font:.75rem "VexMono",monospace;color:var(--dim);min-height:1.2em}
+.tabs button{clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);border-radius:0!important}
+.chip{border-radius:0!important;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+.inputbar{clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);border-radius:0!important}
+.readout{position:absolute;font:.7rem "VexMono",monospace;color:rgba(125,211,252,.55);letter-spacing:1.5px;pointer-events:none;white-space:nowrap}
+.hero .readout.tl{top:6%;left:6%}.hero .readout.tr{top:6%;right:6%;text-align:right}.hero .readout.bl{bottom:4%;left:6%}.hero .readout.br{bottom:4%;right:6%;text-align:right}
+.hero{position:relative}
+/* load: flicker-in + boot */
+@keyframes holoIn{0%{opacity:0;filter:brightness(2.2) blur(2px)}35%{opacity:.7}45%{opacity:.25}60%{opacity:.9}70%{opacity:.6}100%{opacity:1;filter:none}}
+body.booted .dash.hud .w{animation:holoIn .7s ease-out both}
+body.booted .dash.hud .w:nth-child(2){animation-delay:.08s}body.booted .dash.hud .w:nth-child(3){animation-delay:.16s}body.booted .dash.hud .w:nth-child(4){animation-delay:.24s}body.booted .dash.hud .w:nth-child(5){animation-delay:.32s}
+#boot{position:fixed;inset:0;z-index:99;background:radial-gradient(circle at 50% 45%,#062433,#02070c 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;font-family:"VexMono",monospace;color:#a5f3fc;transition:opacity .35s}
+#boot.done{opacity:0;pointer-events:none}
+#boot .ring{width:min(22vw,34vh);aspect-ratio:1;border-radius:50%;border:2px solid rgba(34,211,238,.25);border-top-color:#67e8f9;box-shadow:0 0 30px rgba(34,211,238,.3) inset;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#boot .lines{min-height:7.5em;width:min(80vw,34rem);font-size:clamp(12px,1vw,20px);line-height:1.5;letter-spacing:1px;opacity:.85}
+#boot .bar2{width:min(60vw,30rem);height:3px;background:rgba(56,189,248,.15)}#boot .bar2 i{display:block;height:100%;width:0;background:#67e8f9;box-shadow:0 0 10px #22d3ee;transition:width 1.3s linear}
+html.rm #bgfx{display:none}html.rm body.booted .dash.hud .w{animation:none}
+</style><link rel="stylesheet" href="tokens.css">
+</head>
+<body class="aionly"><script>window.__visSeen=document.visibilityState==="visible";addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")window.__visSeen=true;});window.vexHidden=()=>window.__vexMin===true||(window.__visSeen&&document.hidden);
+(function(){const L=m=>{try{window.pywebview&&pywebview.api&&pywebview.api.ui_log&&pywebview.api.ui_log(m)}catch(e){}};window.vexUiLog=L;
+addEventListener("error",e=>L("JS error: "+e.message+" @ "+(e.filename||"").split("/").pop()+":"+e.lineno),true);addEventListener("unhandledrejection",e=>L("promise: "+(e.reason&&e.reason.message||e.reason)));
+addEventListener("pywebviewready",()=>setTimeout(()=>{let gl="none";try{const c=document.createElement("canvas"),x=c.getContext("webgl2")||c.getContext("webgl");if(x){const d=x.getExtension("WEBGL_debug_renderer_info");gl=(x instanceof WebGL2RenderingContext?"webgl2":"webgl")+" "+(d?x.getParameter(d.UNMASKED_RENDERER_WEBGL):"");}}catch(e){gl="err "+e.message}
+L("diag url="+location.href+" webgl="+gl+" three="+(window.__threeOK||"no")+" glcanvas="+(document.getElementById("gl")||{}).width+" dpr="+devicePixelRatio+" size="+innerWidth+"x"+innerHeight+" lowfx="+document.body.classList.contains("lowfx")+" motion="+(vexRM()?"reduced":"full")+" osReduce="+window.__osRM+" vis="+document.visibilityState+" hasFocus="+document.hasFocus())},4000));})();</script><canvas id="bgfx"></canvas><canvas id="links"></canvas><canvas id="gl"></canvas><div id="boot"><div class="ring"></div><div class="lines" id="bootL"></div><div class="bar2"><i id="bootB"></i></div></div><div id="notif"></div><div id="app">
+<nav>
+  <div class="logo" id="logoL">V</div>
+  <div class="nb on" data-p="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span class="tip">Home</span></div>
+<div class="nb" data-p="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="tip">Chat</span></div>
+<div class="nb" data-p="memory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2zM9 21h6"/></svg><span class="tip">Memory</span></div>
+  <div class="nb" data-p="commands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></svg><span class="tip">What I can do</span></div>
+  <div class="nb" data-p="connections"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 7.5l3 8M16 7.5l-3 8M8.5 6h7"/></svg><span class="tip">Connections</span></div>
+  <div class="nb" data-p="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="tip">Settings</span></div>
+  <div class="spacer"></div>
+  <div class="nb" id="listenBtn" title="Pause / resume listening"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h3l3-8 4 16 3-8h7"/></svg><span class="tip">Pause listening</span></div>
+</nav>
+<main>
+  <header><h1 id="title">VEX <span>personal assistant</span></h1>
+    <div class="chips"><button class="chip fsbtn" id="fsBtn" title="Fullscreen (F11)">⛶ <span id="fsTxt">Fullscreen</span></button><div class="chip"><span class="dot" id="dMic"></span><span id="cMic">Mic</span></div>
+    <div class="chip"><span class="dot" id="dStt"></span><span id="cStt">Speech</span></div>
+    <div class="chip"><span class="dot" id="dLlm"></span><span id="cLlm">Brain</span></div></div></header>
+
+  <section class="page on" id="home">
+    <div class="tabs" id="dtabs"><button data-t="home" class="on">Home</button><button data-t="system">System</button><button data-t="activity">Activity</button><button data-t="memory">Memory</button></div>
+    <div class="dash hud" data-tab="home">
+      <div class="w hero" data-t="home"><canvas id="orb" width="900" height="900"></canvas>
+        <div id="ticker"><span id="tickS"></span></div><div class="readout tl" id="roTL">SYS // VEX CORE</div><div class="readout tr" id="roTR">--:--:--</div><div class="readout bl" id="roBL">LINK OK</div><div class="readout br" id="roBR">v--</div><div id="greet">At your service</div><div id="stateText">Starting up…</div><div id="hint">Say “wake up” or press Ctrl+Alt+V</div>
+        <div class="inputbar"><button class="btn mic" id="ptt" title="Push to talk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></svg></button>
+        <input id="txt" placeholder="How may I help? (opens in Chat)"><button class="btn p" id="go">Ask</button></div></div>
+      <div class="w" id="wClock" data-t="home"><h4>Today</h4><div id="clk" class="big">--:--</div><div id="dte" class="sub"></div><div id="wWx"><div id="wx">Loading…</div></div></div>
+      <div class="w" id="wRem" data-t="home"><h4>Reminders</h4><div id="rem"></div><div class="mini"><input id="remText" placeholder="Remind me to…" style="flex:2"><input id="remWhen" placeholder="in 20 min"><button class="btn" id="remAdd">+</button></div><div class="fxbox"><span class="fxl">SENSOR SWEEP</span><canvas class="fxc" id="radar"></canvas></div></div>
+      <div class="w" id="wTodo" data-t="home"><h4>Tasks</h4><div id="todo"></div><div class="mini"><input id="todoIn" placeholder="Add a task…"><button class="btn" id="todoAdd">+</button></div><div class="fxbox"><span class="fxl">GLOBAL NET // WIREFRAME</span><canvas class="fxc" id="globe"></canvas></div></div>
+      <div class="w wide" id="wLog" data-t="home activity"><h4>Conversation</h4><div id="log" style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div></div>
+      <div class="w" id="wStats" data-t="system"><h4>System load</h4><div id="stats">…</div></div>
+      <div class="w" id="wSys" data-t="system"><h4>Status</h4><div id="sys"></div></div>
+      <div class="w" id="wIdx" data-t="system"><h4>PC index</h4><div id="idx" class="sub">Building…</div></div>
+      <div class="w" id="wHome" data-t="system"><h4>Smart home</h4><div id="home2"></div></div>
+      <div class="w" id="wFeed" data-t="activity"><h4>Alerts &amp; activity</h4><div id="feed" class="sub">No alerts. All quiet.</div></div>
+      <div class="w" id="wRecent" data-t="activity"><h4>Recent chats</h4><div id="recent"></div></div>
+      <div class="w" id="wMem" data-t="memory"><h4>Things I remember</h4><div id="mem2" class="sub"></div></div>
+      <div class="w" id="wNotes" data-t="memory"><h4>Study notes</h4><div id="notes" class="sub">Say “study …” and I'll keep notes here.</div></div>
+    </div>
+  </section>
+
+  <section class="page" id="chat">
+    <div class="clist"><button class="btn p" id="newChat">+ New chat</button><div class="items" id="chatItems"></div></div>
+    <div class="cmain"><div class="brainchip" id="brainChip">Brain: …</div>
+      <div id="msgs"></div>
+      <div class="composer"><button class="btn mic" id="cPtt" title="Talk (voice)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></svg></button>
+        <textarea id="cIn" rows="1" placeholder="Message Vex…  (Enter to send, Shift+Enter for a new line)"></textarea>
+        <button class="btn" id="cStop" title="Vex stop">Stop</button><button class="btn p" id="cSend">Send</button></div>
+    </div>
+  </section>
+
+  <section class="page" id="memory"><div class="scroll"><div style="max-width:760px">
+    <h2 style="margin:0 0 6px">What Vex remembers</h2><p style="color:var(--dim);font-size:13px;margin:0 0 18px">Vex uses these in every chat. Say or type “remember …” to add one. Edit or delete anything here – it's saved only on this PC.</p>
+    <div class="memrow"><input id="memIn" placeholder="e.g. My math teacher is Mr. Lopez"><button class="btn p" id="memAdd">Add</button></div>
+    <div id="memList" style="margin-top:16px"></div></div></div></section>
+
+  <section class="page" id="commands"><div class="scroll"><div class="grid" id="cmdGrid"></div></div></section>
+
+  <section class="page" id="connections"><div class="scroll"><div class="cx">
+    <div class="cxh"><h2>CONNECTIONS</h2><span id="cxVault"></span></div>
+    <p class="cxp">Everything here is optional. Vex runs 100% local and free by default. Keys you paste are encrypted on this PC with Windows DPAPI and never shown again.</p>
+    <div class="sect">AI AGENTS</div>
+    <div class="cxrow"><label>Main brain</label><select id="cxBrain"></select><label>Hard questions go to</label><select id="cxHard"></select><button class="btn" id="cxRoute">Save routing</button><span id="cxRouteMsg"></span></div>
+    <div class="cxgrid" id="cxAgents"></div>
+    <div class="sect">ACCOUNTS <small>opt-in · you sign in yourself in your own browser · read-only unless noted</small></div>
+    <div class="cxgrid" id="cxAccts"></div>
+  </div></div></section>
+  <section class="page" id="settings"><div class="scroll"><div class="form" id="form">
+    <div class="sect">ASSISTANT</div>
+    <label>Name</label><input id="assistant_name">
+    <label>Wake phrases</label><input id="wake_phrases"><small>Comma separated. Use common English words. Starts the convo when said at the start of a sentence.</small>
+    <label>Your name</label><input id="user_name">
+    <label>Greeting</label><input id="greeting">
+    <label>Keep listening after reply (s)</label><input id="follow_up_seconds" type="number" min="2" max="30">
+    <label>Push-to-talk hotkey</label><input id="push_to_talk_hotkey"><small>e.g. ctrl+alt+v, f9. Restart Vex after changing.</small>
+    <label>Speaker / headset</label><select id="speaker_device"></select>
+    <label>Microphone</label><select id="mic_device"></select>
+    <label>Mic sensitivity</label><input id="speech_sensitivity" type="number" step="0.002" min="0.002" max="0.1"><small>Lower = picks up quieter speech. Raise it if keyboard noise wakes it.</small>
+    <div class="sect">DISPLAYS</div>
+    <div id="dispBox"></div><small>By default the other monitor is only used briefly (colour protocols, "show stats on the other monitor", long answers, alerts) and clears itself after ~20s or when you say "dismiss". The HUD never stays on top of games and hides in game mode. Voice: "move to monitor 1/2", "span all monitors", "single monitor".</small>
+    <div class="sect">LOOK</div>
+    <div id="lookBox"></div><small>Or just say it: "make the orb red", "darker", "bigger text", "stealth theme", "undo that", "reset look", "faster voice", "change your name to Nova".</small>
+    <div class="sect">EFFECTS</div>
+    <label>UI sound effects</label><div class="toggle" id="ui_sounds"></div><small>Subtle synthesised blips on wake, reply, alerts and protocols.</small>
+    <label>Boot line ("All systems online")</label><div class="toggle" id="boot_voice"></div>
+    <div class="sect">HAND CONTROL</div>
+    <label>Hand control (webcam)</label><div class="toggle" id="hand_control"></div><small>Point = cursor, pinch = click, pinch-hold = drag, palm swipe = switch tabs, two fingers = scroll, fist 1s = wake/sleep. Camera only runs while this is on; nothing is saved or sent. Pauses during Gorilla Tag / SteamVR.</small>
+    <label>Remember camera on between launches</label><div class="toggle" id="hand_control_remember"></div><small>Off (default): the camera is always off when Vex starts, until you say "turn on camera".</small>
+    <label>Camera</label><select id="hand_camera"></select>
+    <label>Control real mouse</label><div class="toggle" id="hand_mouse"></div><small>Off = gestures only work on the Vex dashboard.</small>
+    <label>Mention trending games (streaming)</label><div class="toggle" id="proactive_trending"></div>
+    <div class="sect">VOICE + BRAIN</div>
+    <label>Voice engine</label><select id="tts_engine"><option value="kokoro">Kokoro (offline, best)</option><option value="edge">Edge voice (free, needs internet)</option><option value="piper">Piper (offline)</option><option value="windows">Windows voice</option></select>
+    <label>Butler voice</label><select id="voice_preset"><option value="edge_ryan">Ryan – British, calm (online, default)</option><option value="edge_thomas">Thomas – British, crisp (online)</option><option value="piper_alan">Alan – British (offline)</option><option value="piper_northern">Northern English male (offline)</option></select>
+    <label>AI polish (light reverb)</label><div class="toggle" id="voice_fx"></div>
+    <label>Voice style</label><select id="voice_style"><option value="butler">Calm British butler</option><option value="casual">Casual</option></select>
+    <label>Edge voice</label><select id="edge_voice"><option value="en-GB-RyanNeural">en-GB-RyanNeural (butler, default)</option><option>en-GB-ThomasNeural</option><option>en-US-BrianNeural</option><option>en-US-AndrewNeural</option><option>en-US-ChristopherNeural</option><option>en-US-GuyNeural</option><option>en-US-EricNeural</option><option>en-US-RogerNeural</option></select>
+    <label></label><div><button class="btn" id="testVoice">Test voice</button></div>
+    <label>Speech model</label><select id="whisper_model"><option>base.en</option><option>small.en</option><option>tiny.en</option></select><small>small.en is more accurate but downloads ~480 MB the first time.</small>
+    <label>Speech on</label><select id="whisper_device"><option>auto</option><option>cpu</option><option>cuda</option></select>
+    <div class="sect">AI BRAIN</div>
+    <label>Which brain</label><select id="brain"><option value="auto">Auto – cloud if a key is set, otherwise local</option><option value="local">Always local (private, free)</option><option value="groq">Groq</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic (Claude)</option></select>
+    <small>Local runs on your PC for free. Cloud brains are smarter but need your own API key (optional). If a cloud brain fails, Vex falls back to local.</small>
+    <label>Local model (Ollama)</label><input id="ollama_model">
+    <label>Groq API key</label><input id="groq_key" type="password" placeholder="optional"><label>Groq model</label><input id="groq_model">
+    <label>Gemini API key</label><input id="gemini_key" type="password" placeholder="optional"><label>Gemini model</label><input id="gemini_model">
+    <label>OpenAI API key</label><input id="openai_key" type="password" placeholder="optional"><label>OpenAI model</label><input id="openai_model">
+    <label>Anthropic API key</label><input id="anthropic_key" type="password" placeholder="optional"><label>Anthropic model</label><input id="anthropic_model">
+    <small>Keys stay in settings.json on this PC. Leave blank to keep a saved key.</small>
+    <label>Custom API (advanced)</label><select id="llm_backend"><option value="ollama">Off</option><option value="openai_compatible">OpenAI-compatible URL</option></select>
+    <label>API base URL</label><input id="api_base_url" placeholder="optional">
+    <label>API key</label><input id="api_key" type="password" placeholder="optional">
+    <label>API model</label><input id="api_model" placeholder="optional">
+    <div class="sect">DASHBOARD</div>
+    <label>Weather city</label><input id="weather_city" placeholder="blank = auto from internet location">
+    <label>Units</label><select id="units"><option value="imperial">°F / mph</option><option value="metric">°C / km/h</option></select>
+    <label>Morning briefing</label><div class="toggle" id="morning_briefing"></div><small>Off by default. When on, Vex says the weather, to-dos and reminders once each morning.</small>
+    <label>Briefing time</label><input id="briefing_time" placeholder="07:30">
+    <label>Brief on first unlock</label><div class="toggle" id="briefing_on_unlock"></div><small>Off by default. Plays the briefing the first time you unlock the PC each morning. Saying "good morning" always works.</small>
+    <div class="sect">SMART HOME (optional)</div>
+    <label>Hue bridge IP</label><input id="hue_bridge_ip" placeholder="blank = find it automatically">
+    <label>Pair Hue</label><div><button class="btn" id="huePair">Pair</button> <span id="hueMsg"></span></div><small>Press the round button on the Hue bridge, then click Pair within 30 seconds.</small>
+    <label>Home Assistant URL</label><input id="ha_url" placeholder="http://homeassistant.local:8123">
+    <label>HA token</label><input id="ha_token" type="password" placeholder="long-lived access token"><small>In Home Assistant: your profile → Security → Long-lived access tokens → Create. Save settings, then Test.</small>
+    <label></label><div><button class="btn" id="haTest">Test</button> <span id="haMsg"></span></div>
+    <div class="sect">STREAMING (EXTRA)</div>
+    <label>Streamlabs API token</label><input id="streamlabs_api_token" type="password"><small>Streamlabs → Settings → Remote Control → click the QR area → Show details → API Token. Only used to switch scenes.</small>
+    <label>Welcome scene</label><input id="starting_scene">
+    <label>OBS websocket password</label><input id="obs_websocket_password" type="password"><small>Only if you use OBS instead of Streamlabs.</small>
+    <label>YouTube channel URL</label><input id="youtube_channel_url">
+    <div class="sect">PHONE</div>
+    <label>Phone bridge</label><div class="toggle" id="phone_enabled"></div>
+    <small>Lets your iPhone talk to Vex over your home Wi-Fi (Vex Shortcut or the Vex web app). Only works on your home network and only with the key below.</small>
+    <label>Status</label><div id="phStatus" class="phv">…</div>
+    <label>Phone port</label><input id="phone_port" type="number" min="1024" max="65535">
+    <label>Command URL</label><div class="phv sel" id="phUrl">…</div>
+    <label>Header name</label><div class="phv sel">X-Vex-Key</div>
+    <label>Pairing key</label><div class="phv"><span class="sel" id="phKey">•••••</span> <button class="btn" id="phShow">Show</button> <button class="btn" id="phNew">New key</button></div>
+    <small>Anyone with this key on your Wi-Fi can control Vex. "New key" makes the old one stop working (then update your Shortcut).</small>
+    <label>Scan with iPhone camera</label><div class="phv"><div id="phQr" class="qr" style="display:none"></div><button class="btn" id="phQrBtn">Show QR code</button></div>
+    <small>Opens the Vex phone app in Safari with the key filled in. Tap Share → Add to Home Screen. Setup guide: Desktop → "Vex Phone Setup".</small>
+    <div class="sect">APP</div>
+    <label>Start with Windows</label><div class="toggle" id="start_with_windows"></div>
+    <label>Close button hides to tray</label><div class="toggle" id="close_to_tray"></div>
+    <label></label><div><button class="btn p" id="save">Save settings</button><span id="saveMsg"></span></div>
+  </div></div></section>
+</main></div>
+<script>
+const $=s=>document.querySelector(s);
+const CMDS=[
+ ["Chat + questions",[["Chat tab","type anything – ChatGPT-style, saved on this PC"],["“what's the capital of Peru”","any question"],["“search the web for …” / “look up …”","live web results, cites sources"],["“research black holes and summarize”","reads several sites"]]],
+ ["Homework + writing",[["“explain how to solve 2x + 5 = 17”","step by step"],["“help me fix this paragraph: …”","keeps your voice"],["“quiz me on the water cycle”",""],["“summarize my essay.docx”","reads txt, pdf, docx"]]],
+ ["Coding",[["“write a Python script that …”","code blocks with Copy buttons"],["“run it”","runs Python in a sandbox folder – asks first"],["“why does this error happen: …”",""]]],
+ ["Memory",[["“remember my birthday is May 3”","saved in Memory tab"],["“what do you remember about me?”",""],["“forget my birthday”","or edit in the Memory tab"]]],
+ ["Reminders + to-dos",[["“remind me to study in 30 minutes”","pop-up + Vex says it"],["“set a timer for 10 minutes”",""],["“add finish science project to my to-do”","shows on Home"],["“what's on my list?”",""]]],
+ ["Weather + briefing",[["“what's the weather?” / “weather in Tokyo”","Open-Meteo, free"],["“give me my briefing”","weather, to-dos, reminders"],["Morning briefing","optional, Settings → Dashboard"]]],
+ ["Voice",[["“wake up” / “hey vex”","wakes Vex up"],["Ctrl+Alt+V","push to talk"],["“go to sleep” / “that's all”","stops listening"]]],
+ ["PC control",[["“open calculator / steam / youtube.com”","any app, setting, folder, file or site"],["“minimize / maximize / close this”","close asks if it might lose work"],["“type hello” / “press ctrl s”",""],["“take a screenshot”",""],["“pause” / “next song” / “volume up”","media + Spotify"],["“how much disk space / ram / battery”",""],["“shut down / restart” / settings / PowerShell","asks first"]]],
+ ["Files",[["“find my clip”","then “open it”"],["“make a folder called edits on my desktop”",""],["“move / copy / rename …”",""],["“delete old clip”","Recycle Bin, asks first"]]],
+ ["Phone",[["Vex web app on iPhone","full chat + commands on home Wi-Fi"],["Yes / No buttons","confirm risky stuff"]]],
+ ["Safety",[["“Vex stop” / Ctrl+Alt+X / Stop button","cancels everything"],["Yes to confirm","delete, send, system changes, running code"],["Never","buys, signs in, or starts streams"],["actions.log","every action is logged"]]],
+ ["Streaming (extra)",[["“set up my stream”","runs your stream setup shortcut"],["“switch to starting soon scene”","Streamlabs/OBS"],["“notify in Discord …” then “send”",""],["“what's trending on Steam”",""],["“go live”","Vex won't – you press Go Live"]]]];
+$("#cmdGrid").innerHTML=CMDS.map(([h,rows])=>`<div class="card"><h4>${h}</h4>${rows.map(([a,b])=>`<div><b>${a}</b> <i>${b?'— '+b:''}</i></div>`).join("")}</div>`).join("");
+function goPage(p){document.querySelectorAll(".nb[data-p]").forEach(x=>x.classList.toggle("on",x.dataset.p==p));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id==p));if(p=="settings")loadSettings();if(p=="chat"){loadChats();setTimeout(()=>$("#cIn").focus(),50);}if(p=="memory")loadMem();if(p=="home")loadDash();}
+document.querySelectorAll(".nb[data-p]").forEach(n=>n.onclick=()=>goPage(n.dataset.p));
+const api=()=>window.pywebview&&window.pywebview.api;
+// ---------- orb
+const cv=$("#orb"),ctx=cv.getContext("2d");let state="starting",level=0,target=0,t=0;
+const STATE_TXT={starting:"Starting up…",sleeping:"Sleeping – say the wake phrase",listening:"Listening – conversation mode. Say “that's all” to stop",thinking:"Thinking…",speaking:"Speaking",paused:"Listening paused",nowake:"Wake word unavailable – use Ctrl+Alt+V",micerror:"Can't open the mic"};
+// Vex orb v2.2: original arc-ring reactor HUD; colour/motion per state
+const PAL={sleeping:[34,211,238],paused:[90,120,140],starting:[34,211,238],listening:[74,222,128],thinking:[56,189,248],speaking:[103,232,249],nowake:[234,179,8],micerror:[239,68,68]};
+let col=[34,211,238],rot=0,LAST=0;const WAVE=new Float32Array(96);
+function mkBand(txt,r,size){const W=Math.ceil(r*2+size*3),o=document.createElement("canvas");o.width=o.height=W;const x=o.getContext("2d"),c=W/2;x.font=size+"px VexMono, monospace";x.fillStyle="#cffafe";x.textAlign="center";
+ const n=Math.floor(6.283*r/(size*0.72));let full="";while(full.length<n)full+=txt;full=full.slice(0,n);for(let i=0;i<n;i++){const a=i/n*6.283;x.save();x.translate(c+Math.cos(a)*r,c+Math.sin(a)*r);x.rotate(a+1.5708);x.fillText(full[i],0,size*0.35);x.restore();}return o;}
+let BANDS=null;
+function draw(ts){requestAnimationFrame(draw);if(vexHidden()||ts-LAST<33)return;LAST=ts; // 30fps cap, paused when hidden
+ t+=0.033;level+=(target-level)*0.3;target*=0.88;
+ const W=cv.width,c=W/2;ctx.clearRect(0,0,W,W);const P=PAL[state]||PAL.sleeping;for(let i=0;i<3;i++)col[i]+=(P[i]-col[i])*0.1;
+ if(!BANDS)BANDS=[mkBand("VEX CORE // NEURAL LINK ACTIVE // VOICE MATRIX ONLINE // LOCAL BRAIN SYNC // ",W*0.425,15),mkBand(" SYS 7A3F · SIGNAL 98% · THERMAL NOMINAL · UPLINK STABLE · CACHE OK ·",W*0.29,12)];
+ const C=a=>`rgba(${col[0]|0},${col[1]|0},${col[2]|0},${a})`,AMB=a=>`rgba(251,191,36,${a})`;
+ const idle=state=="sleeping"||state=="paused"||state=="starting",lis=state=="listening",thk=state=="thinking",spk=state=="speaking";
+ const sp=thk?2.6:spk?1.3:lis?0.9:0.35;rot+=0.033*sp;
+ const pulse=1+Math.sin(t*2.1)*0.035+level*0.14;
+ let g=ctx.createRadialGradient(c,c,W*0.03,c,c,W*0.5);g.addColorStop(0,C(0.30+level*0.3));g.addColorStop(0.45,C(0.06));g.addColorStop(1,C(0));ctx.fillStyle=g;ctx.fillRect(0,0,W,W);
+ const arc=(r,a0,a1,w,st)=>{ctx.beginPath();ctx.arc(c,c,r,a0,a1);ctx.lineWidth=w;ctx.strokeStyle=st;ctx.stroke();};
+ const segs=(r,n,gap,w,ang,al)=>{for(let i=0;i<n;i++){const a0=i/n*6.283+ang;arc(r,a0,a0+6.283/n-gap,w,C(al));}};
+ // L1 outer tick ring (slow, clockwise)
+ ctx.strokeStyle=C(0.5);ctx.lineWidth=1.5;const r1=W*0.475;for(let i=0;i<120;i++){const a=i/120*6.283+rot*0.12,l=i%10?6:16;ctx.beginPath();ctx.moveTo(c+Math.cos(a)*r1,c+Math.sin(a)*r1);ctx.lineTo(c+Math.cos(a)*(r1-l),c+Math.sin(a)*(r1-l));ctx.stroke();}
+ // L2 outer data band (counter-clockwise)
+ const db=(img,ang,al)=>{ctx.save();ctx.globalAlpha=al;ctx.translate(c,c);ctx.rotate(ang);ctx.drawImage(img,-img.width/2,-img.height/2);ctx.restore();};
+ db(BANDS[0],-rot*0.18,0.55);
+ // L3 long segmented arcs
+ segs(W*0.395,3,0.9,4,rot*0.5,0.75);arc(W*0.395,-rot*0.9,-rot*0.9+0.25,8,AMB(0.85));
+ // L4 hairline + amber markers
+ arc(W*0.365,0,6.283,1,C(0.28));for(let k=0;k<4;k++){const a=k*1.5708-rot*0.7;ctx.fillStyle=k==1?AMB(.9):C(.9);ctx.fillRect(c+Math.cos(a)*W*0.365-3,c+Math.sin(a)*W*0.365-3,6,6);}
+ // L5 dashed fast ring
+ segs(W*0.335,48,0.07,3,rot*1.4,0.55+level*0.3);
+ // L6 inner data band
+ db(BANDS[1],rot*0.35,0.45);
+ // L7 waveform ring (audio-reactive when speaking)
+ const rw=W*0.245;ctx.lineWidth=3;for(let i=0;i<96;i++){const tgt=spk?(0.25+0.75*Math.abs(Math.sin(i*0.9+t*9)*Math.cos(i*0.31-t*5)))*Math.min(1,level*1.6+0.15):lis?0.08+0.05*Math.sin(i*0.5+t*4):0.03;WAVE[i]+=(tgt-WAVE[i])*0.35;
+  const a=i/96*6.283-1.5708,l=4+WAVE[i]*W*0.07;ctx.strokeStyle=spk?"rgba(224,250,255,.85)":C(0.45);ctx.beginPath();ctx.moveTo(c+Math.cos(a)*rw,c+Math.sin(a)*rw);ctx.lineTo(c+Math.cos(a)*(rw+l),c+Math.sin(a)*(rw+l));ctx.stroke();}
+ if(lis){for(let k=0;k<3;k++){const p=(t*0.45+k/3)%1;arc(W*(0.16+p*0.3),0,6.283,2,C(0.5*(1-p)));}}
+ if(thk){arc(W*0.43,rot*2,rot*2+0.8,5,"#e0f7ff");arc(W*0.43,rot*2+3.14,rot*2+3.94,5,"#e0f7ff");}
+ // L8 heavy segment ring
+ segs(W*0.195,8,0.22,W*0.022,-rot*0.6,0.8);segs(W*0.17,32,0.12,2,rot*0.9,0.5);
+ // core
+ const rc=W*0.12*pulse;g=ctx.createRadialGradient(c,c,0,c,c,rc);g.addColorStop(0,"#ffffff");g.addColorStop(0.3,C(1));g.addColorStop(1,C(0.04));
+ ctx.beginPath();ctx.arc(c,c,rc,0,6.283);ctx.fillStyle=g;ctx.shadowColor=C(1);ctx.shadowBlur=30+level*60;ctx.fill();ctx.shadowBlur=0;
+ arc(rc*1.08,0,6.283,1.5,`rgba(224,250,255,${0.4+0.3*Math.sin(t*3)})`);
+ ctx.strokeStyle=`rgba(224,250,255,.55)`;ctx.lineWidth=2;ctx.beginPath();for(let k=0;k<=6;k++){const a=k/6*6.283+rot*0.3;const x=c+Math.cos(a)*rc*0.62,y=c+Math.sin(a)*rc*0.62;k?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
+ for(let k=0;k<12;k++){const a=k/12*6.283-rot*0.4;ctx.fillStyle=C(0.35+0.35*((k+((t*4)|0))%3==0));ctx.beginPath();ctx.arc(c,c,rc*1.42,a,a+0.38);ctx.arc(c,c,rc*1.2,a+0.38,a,true);ctx.closePath();ctx.fill();}
+}
+requestAnimationFrame(draw);
+function setState(s){state=s;$("#stateText").textContent=STATE_TXT[s]||s;}
+function chip(id,txt,cls){$("#c"+id).textContent=txt;$("#d"+id).className="dot "+cls;}
+function setStatus(st){if(!st)return;chip("Stt","Speech: "+(st.stt||"?"),st.stt&&st.stt!="loading"&&st.stt!="error"?"g":"y");
+ chip("Llm","Brain: "+(st.llm||"?"),/ready|api/.test(st.llm)?"g":"y");
+ chip("Mic","Mic: "+(state=="paused"?"paused":st.mic||"?"),state=="paused"?"":(/listening/.test(st.mic||"")?"p":"y"));}
+function addMsg(who,text){const d=document.createElement("div");d.className="m "+who;d.innerHTML=`<small>${who=="you"?"YOU":NAME.toUpperCase()}</small>`;const tn=document.createTextNode(who=="you"?text:"");d.appendChild(tn);if(who!="you"){let k=0;const iv=setInterval(()=>{k=Math.min(text.length,k+3);tn.data=text.slice(0,k);$("#log").scrollTop=1e9;if(k>=text.length)clearInterval(iv);},16);}if(window.vexTick)vexTick((who=="you"?"IN  ":"OUT ")+text.slice(0,60));$("#log").appendChild(d);$("#log").scrollTop=1e9;while($("#log").children.length>60)$("#log").firstChild.remove();}
+let NAME="Vex",LISTEN=true;
+window.vexOn=(ev,d)=>{if(ev=="feed"){FEEDL=[d].concat(FEEDL).slice(0,12);drawFeed(FEEDL);return;}if(ev=="notify"){toast(d.title,d.text);loadDash();}else if(ev=="chat_tool"){toolStatus(d.tool);}else if(ev=="level")target=Math.max(target,d.v);else if(ev=="state"){setState(d.state);setStatus(d.status);}else if(ev=="status")setStatus(d);else if(ev=="transcript")addMsg(d.who,d.text);};
+async function refresh(){const a=api();if(!a)return;const s=await a.get_status();NAME=s.name;LISTEN=s.listening;$("#title").innerHTML=`${s.name.toUpperCase()} <span>personal assistant</span>`;$("#logoL").textContent=s.name[0].toUpperCase();
+ $("#hint").textContent=`Say “${(s.wake||[])[0]||"wake up"}” or press ${s.hotkey.toUpperCase()}`;setState(s.state);setStatus(s.status);$("#listenBtn").classList.toggle("on",!LISTEN);}
+window.addEventListener("pywebviewready",()=>{refresh();setInterval(refresh,4000);loadDash();setInterval(()=>{if($("#home").classList.contains("on"))loadDash();},30000);});
+$("#ptt").onclick=()=>api()&&api().push_to_talk();
+const send=()=>{const v=$("#txt").value.trim();if(!v)return;$("#txt").value="";goPage("chat");chatSend(v);};$("#go").onclick=send;$("#txt").onkeydown=e=>{if(e.key=="Enter")send();};
+$("#listenBtn").onclick=async()=>{if(!api())return;LISTEN=!LISTEN;await api().set_listening(LISTEN);refresh();};
+function esc(t){return String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function mdInline(s){s=esc(s);
+ s=s.replace(/`([^`]+)`/g,(m,c)=>"<code>"+c+"</code>");
+ s=s.replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(^|[^*])\*([^*\s][^*]*)\*/g,"$1<i>$2</i>");
+ s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+ s=s.replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g,'$1<a href="$2" target="_blank">$2</a>');return s;}
+function md(src){const lines=String(src||"").replace(/\r/g,"").split("\n");let o="",i=0;
+ while(i<lines.length){let l=lines[i];
+  let f=l.match(/^\s*```(\w*)/);if(f){let code=[];i++;while(i<lines.length&&!/^\s*```/.test(lines[i]))code.push(lines[i++]);i++;
+   o+=`<div class="code"><div class="codeh"><span>${esc(f[1]||"code")}</span><button class="copy" onclick="copyCode(this)">Copy</button></div><pre><code>${esc(code.join("\n"))}</code></pre></div>`;continue;}
+  let h=l.match(/^(#{1,4})\s+(.*)/);if(h){o+=`<h${h[1].length+2}>${mdInline(h[2])}</h${h[1].length+2}>`;i++;continue;}
+  if(/^\s*\|.*\|\s*$/.test(l)&&i+1<lines.length&&/^\s*\|[\s:|-]+\|\s*$/.test(lines[i+1])){const row=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(c=>mdInline(c.trim()));
+   let t="<table><tr>"+row(l).map(c=>"<th>"+c+"</th>").join("")+"</tr>";i+=2;while(i<lines.length&&/^\s*\|/.test(lines[i]))t+="<tr>"+row(lines[i++]).map(c=>"<td>"+c+"</td>").join("")+"</tr>";o+=t+"</table>";continue;}
+  if(/^\s*([-*•]|\d+[.)])\s+/.test(l)){const ol=/^\s*\d/.test(l);let it=[];while(i<lines.length&&/^\s*([-*•]|\d+[.)])\s+/.test(lines[i]))it.push(lines[i++].replace(/^\s*([-*•]|\d+[.)])\s+/,""));
+   o+=(ol?"<ol>":"<ul>")+it.map(x=>"<li>"+mdInline(x)+"</li>").join("")+(ol?"</ol>":"</ul>");continue;}
+  if(/^\s*>/.test(l)){o+="<blockquote>"+mdInline(l.replace(/^\s*>\s?/,""))+"</blockquote>";i++;continue;}
+  if(!l.trim()){i++;continue;}
+  let p=[];while(i<lines.length&&lines[i].trim()&&!/^\s*(```|#{1,4}\s|[-*•]\s|\d+[.)]\s|>|\|)/.test(lines[i]))p.push(lines[i++]);
+  if(!p.length)p.push(lines[i++]);o+="<p>"+p.map(mdInline).join("<br>")+"</p>";}
+ return o;}
+function copyCode(b){const t=b.closest(".code").querySelector("code").innerText;navigator.clipboard.writeText(t).then(()=>{b.textContent="Copied!";setTimeout(()=>b.textContent="Copy",1500);});}
+function copyMsg(b){const t=b.closest(".cm").dataset.raw||"";navigator.clipboard.writeText(t).then(()=>{b.textContent="Copied!";setTimeout(()=>b.textContent="Copy",1500);});}
+
+// ---------- dashboard
+function toast(t,x){const d=document.createElement("div");d.className="toast";d.innerHTML=`<b>⏰ ${esc(t)}</b>${esc(x)}`;$("#notif").appendChild(d);setTimeout(()=>d.remove(),15000);d.onclick=()=>d.remove();}
+const TIPS={web_search:"Searching the web…",read_webpage:"Reading a page…",research:"Researching…",get_weather:"Checking the weather…",read_file:"Reading the file…",run_python:"Getting code ready…",remember:"Saving to memory…",set_reminder:"Setting a reminder…"};
+function toolStatus(t){const e=document.querySelector("#msgs .pend .tl");if(e)e.textContent=TIPS[t]||("Using "+t.replace(/_/g," ")+"…");}
+function drawTodos(t){$("#todo").innerHTML=t.length?t.map(x=>`<div class="li"><span class="cb ${x.done?"on":""}" onclick="tdT('${x.id}')"></span><span class="${x.done?"done":""}">${esc(x.text)}</span><span class="x" onclick="tdR('${x.id}')">✕</span></div>`).join(""):'<div style="color:var(--dim);font-size:13px">Nothing yet</div>';}
+function fmtDue(d){const t=new Date(d);const today=new Date().toDateString()==t.toDateString();return (today?"":t.toLocaleDateString([], {weekday:"short"})+" ")+t.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});}
+function drawRem(r){$("#rem").innerHTML=r.length?r.map(x=>`<div class="li">⏰ <span>${esc(x.text)}</span><span style="color:var(--p3);font-size:12px;margin-left:auto">${fmtDue(x.due)}</span><span class="x" style="margin-left:6px" onclick="rmC('${x.id}')">✕</span></div>`).join(""):'<div style="color:var(--dim);font-size:13px">No reminders</div>';}
+window.tdT=async id=>drawTodos(await api().todo_toggle(id));window.tdR=async id=>drawTodos(await api().todo_remove(id));window.rmC=async id=>drawRem(await api().reminder_cancel(id));
+$("#todoAdd").onclick=async()=>{const v=$("#todoIn").value.trim();if(v){drawTodos(await api().todo_add(v));$("#todoIn").value="";}};$("#todoIn").onkeydown=e=>{if(e.key=="Enter")$("#todoAdd").click();};
+$("#remAdd").onclick=async()=>{const t=$("#remText").value.trim(),w=$("#remWhen").value.trim()||"in 10 minutes";if(!t)return;const r=await api().reminder_add(t,w);drawRem(r.list);toast("Reminder",r.msg);$("#remText").value="";$("#remWhen").value="";};
+function wxIcon(d){return /thunder/.test(d)?"⛈️":/snow/.test(d)?"🌨️":/rain|drizzle|shower/.test(d)?"🌧️":/fog/.test(d)?"🌫️":/partly|mostly/.test(d)?"⛅":/cloud/.test(d)?"☁️":"☀️";}
+function tick(){const n=new Date();$("#clk").textContent=n.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});$("#dte").textContent=n.toLocaleDateString([], {weekday:"long",month:"long",day:"numeric"}).toUpperCase();}tick();setInterval(tick,1000);
+const KV=(k,v)=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`;
+function gauge(l,v,sub){const p=Math.max(0,Math.min(100,+v||0)),r=40,C=2*Math.PI*r,a=C*0.75,warn=p>=85?" hot":"";
+ const ticks=Array.from({length:28},(_,k)=>{const ang=(135+k*270/27)*Math.PI/180,r1=47,r2=k%3?50:52;return `<line x1="${50+r1*Math.cos(ang)}" y1="${50+r1*Math.sin(ang)}" x2="${50+r2*Math.cos(ang)}" y2="${50+r2*Math.sin(ang)}"/>`}).join("");
+ return `<div class="gauge${warn}"><svg viewBox="-4 -4 108 108"><circle class="grot" cx="50" cy="50" r="33" stroke-dasharray="3 5"/><circle class="grot r2" cx="50" cy="50" r="30" stroke-dasharray="18 10 4 10"/><g class="gt">${ticks}</g><circle class="gb" cx="50" cy="50" r="${r}" stroke-dasharray="${a} ${C}" transform="rotate(135 50 50)"/><circle class="gv" cx="50" cy="50" r="${r}" stroke-dasharray="${a*p/100} ${C}" transform="rotate(135 50 50)"/></svg><div class="gn"><b>${v==null?"--":Math.round(p)}</b><i>%</i></div><div class="gl">${esc(l)}</div><div class="gs">${sub||""}</div></div>`;}
+function drawStats(s){s=s||{};const B=(l,v,x)=>`<div class="stat"><span>${l}</span><span class="num">${x??(v??"…")+"%"}</span></div><div class="bar"><i style="width:${v||0}%"></i></div>`;
+ $("#stats").innerHTML=`<div class="gauges">${gauge("CPU",s.cpu,"")}${gauge("RAM",s.ram,s.ram_total?s.ram_total+" GB":"")}${s.gpu!=null?gauge("GPU",s.gpu,s.gpu_temp!=null?s.gpu_temp+"°C":""):""}</div>`+(s.gpu!=null?B("VRAM",s.vram):"")+B("Disk C:",s.disk_pct,`${s.disk_free??"?"} GB free`)+(s.net_down!=null?KV("Network",`↓ ${s.net_down} KB/s · ↑ ${s.net_up} KB/s`):"");}
+let HUDT=null;function hudLoop(){const a=api();if(a&&a.hud_stats&&$("#home").classList.contains("on"))a.hud_stats().then(drawStats).catch(()=>{});}
+window.addEventListener("pywebviewready",()=>{HUDT=setInterval(hudLoop,3000);});
+function drawFeed(f){$("#feed").innerHTML=(f&&f.length)?f.map(x=>`<div class="fi"><b>${esc(x.t)}</b><span>${esc(x.text)}</span></div>`).join(""):"No alerts. All quiet.";}
+let FEEDL=[];
+function drawDash(d){FEEDL=d.feed||FEEDL;drawFeed(FEEDL);$("#mem2").innerHTML=(d.memories||[]).length?d.memories.map(m=>`<div class="fi"><span>• ${esc(m)}</span></div>`).join(""):'Say “remember that …” and I\'ll keep it here.';$("#greet").textContent=d.greeting;if($("#brainChip"))$("#brainChip").textContent="Brain: "+d.brain;
+ const w=d.weather||{};$("#wx").innerHTML=w.error?`<span style="color:var(--dim);font-size:13px">Weather unavailable</span>`:`<div class="wx"><div style="font-size:40px">${wxIcon(w.desc)}</div><div class="t">${w.temp}${w.unit}</div><div class="d">${esc(w.desc)}<br>Feels ${w.feels}° · ${esc(w.place)}</div></div><div class="days">${w.days.map((x,i)=>`<div>${i?new Date(x.date+"T12:00").toLocaleDateString([], {weekday:"short"}):"Today"}<br>${wxIcon(x.desc)} ${x.hi}°/${x.lo}°<br>💧${x.rain}%</div>`).join("")}</div>`;
+ drawStats(d.stats);const h=d.home||{};
+ $("#home2").innerHTML=KV("Philips Hue",h.hue?"Paired":"Not set up")+KV("Home Assistant",h.ha?"Connected":"Not set up")+(h.hue||h.ha?"":`<div class="sub" style="font-size:12px">Settings → Smart home</div>`);
+ $("#roBR").textContent="BUILD "+(d.version||"");$("#roBL").textContent="CPU "+((d.stats||{}).cpu??"--")+"% · LINK OK";$("#sys").innerHTML=KV("Vex",(d.version||"")+" · online")+KV("Brain",esc(d.brain||"?"))+KV("Speech",esc($("#cStt").textContent.replace("Speech: ","")))+KV("Mic",esc($("#cMic").textContent.replace("Mic: ","")))+(d.channel?KV("Channel",esc(d.channel)):"")+(d.playing?KV("Now playing",esc(d.playing)):"");
+ drawTodos(d.todos||[]);drawRem(d.reminders||[]);
+ $("#notes").innerHTML=(d.notes||[]).length?d.notes.map(n=>`<div class="kv"><span>📘 ${esc(n.topic)}</span><b>${esc(n.date||"")}</b></div>`).join(""):"Say “study …” and I'll keep notes here.";
+ const ix=d.index||{};$("#idx").innerHTML=ix.built?KV("Apps",ix.apps)+KV("Games",ix.games)+KV("Settings pages",ix.settings)+KV("Files",ix.files)+KV("Docs searchable",ix.docs)+KV("Updated",esc(ix.built)):"Building the index…";
+ $("#recent").innerHTML=(d.recent||[]).length?d.recent.map(c=>`<div class="rc" onclick="openChat('${c.id}')">💬 ${esc(c.title)}</div>`).join(""):'<div style="color:var(--dim);font-size:13px">No chats yet – ask me anything!</div>';}
+
+document.querySelectorAll("#dtabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#dtabs button").forEach(x=>x.classList.toggle("on",x==b));document.querySelector(".dash.hud").dataset.tab=b.dataset.t;});
+
+// fullscreen (F11, button, double-click the title bar); state is remembered by Vex
+async function fsToggle(){const a=api();if(!a||!a.toggle_fullscreen)return;const on=await a.toggle_fullscreen();fsShow(on);}
+function fsShow(on){document.body.classList.toggle("fs",!!on);$("#fsTxt").textContent=on?"Exit fullscreen":"Fullscreen";}
+$("#fsBtn").onclick=fsToggle;document.querySelector("header").ondblclick=e=>{if(!e.target.closest("button,input"))fsToggle();};
+window.addEventListener("keydown",e=>{if(e.key=="F11"){e.preventDefault();fsToggle();}});
+window.addEventListener("pywebviewready",async()=>{const a=api();if(a&&a.get_fullscreen)fsShow(await a.get_fullscreen());});
+
+// ---------- futuristic HUD: boot sequence, background circuit/hex (30fps cap), readouts
+(function(){const L=["CORE REACTOR","VOICE MATRIX","LOCAL BRAIN","PC INDEX","SENSOR GRID","HOLO DISPLAY"],el=$("#bootL");
+ let i=0;const step=()=>{if(i<L.length){const n=L[i++];el.insertAdjacentHTML("beforeend",`<div class="ck"><b class="pend">[ .. ]</b> ${n.padEnd(14,".")} <span class="pend">CHECKING</span></div>`);const row=el.lastChild;setTimeout(()=>{row.innerHTML=`<b>[ OK ]</b> ${n.padEnd(14,".")} <span>ONLINE</span>`;},120);setTimeout(step,190);}else el.insertAdjacentHTML("beforeend",`<div class="ck all">ALL SYSTEMS ONLINE</div>`);};step();requestAnimationFrame(()=>$("#bootB").style.width="100%");
+ setTimeout(()=>{$("#boot").classList.add("done");document.body.classList.add("booted");setTimeout(()=>$("#boot").remove(),400);},1500);})();
+(function(){const c=$("#bgfx"),x=c.getContext("2d");let W,H,hex,pulses=[],last=0;const S=34;
+ function build(){W=c.width=innerWidth;H=c.height=innerHeight;hex=document.createElement("canvas");hex.width=W;hex.height=H;const h=hex.getContext("2d");
+  h.strokeStyle="rgba(56,189,248,.07)";h.lineWidth=1;const dx=S*1.5,dy=S*Math.sqrt(3)/2;
+  for(let col=0,X=0;X<W+S;col++,X+=dx)for(let Y=(col%2?dy:0);Y<H+S;Y+=dy*2){h.beginPath();for(let k=0;k<6;k++){const a=Math.PI/3*k;h.lineTo(X+S*.5*Math.cos(a),Y+S*.5*Math.sin(a));}h.closePath();h.stroke();}
+  h.strokeStyle="rgba(34,211,238,.06)";for(let k=0;k<14;k++){let px=Math.random()*W,py=Math.random()*H;h.beginPath();h.moveTo(px,py);for(let s=0;s<5;s++){if(s%2)px+=(Math.random()-.5)*360;else py+=(Math.random()-.5)*260;h.lineTo(px,py);}h.stroke();}
+  pulses=Array.from({length:10},()=>({x:Math.random()*W,y:Math.random()*H,d:Math.random()*4|0,v:40+Math.random()*60,t:Math.random()*3}));}
+ function frame(ts){requestAnimationFrame(frame);if(vexHidden()||ts-last<33)return;const dt=Math.min(.1,(ts-last)/1000);last=ts;
+  x.clearRect(0,0,W,H);x.drawImage(hex,0,0);
+  for(const p of pulses){p.t+=dt;const s=p.v*dt;if(p.d==0)p.x+=s;else if(p.d==1)p.y+=s;else if(p.d==2)p.x-=s;else p.y-=s;if(p.t>2+Math.random()*3){p.t=0;p.d=(p.d+(Math.random()<.5?1:3))%4;}
+   if(p.x<0||p.y<0||p.x>W||p.y>H){p.x=Math.random()*W;p.y=Math.random()*H;}
+   const g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,6);g.addColorStop(0,"rgba(103,232,249,.35)");g.addColorStop(1,"rgba(103,232,249,0)");x.fillStyle=g;x.fillRect(p.x-6,p.y-6,12,12);}}
+ addEventListener("resize",build);build();requestAnimationFrame(frame);
+ setInterval(()=>{const d=new Date();$("#roTR").textContent=d.toTimeString().slice(0,8)+" · T+"+Math.floor(performance.now()/1000)+"s";},1000);})();
+async function loadDash(){const a=api();if(!a||!a.dashboard)return;try{drawDash(await a.dashboard());}catch(e){}}
+// ---------- chat
+let CID=null,BUSY=false;
+const SUGG=["Explain photosynthesis like I'm 12","Help me study for a math test on fractions","Write a Python script that renames files","What's the weather this weekend?","Search the web for the newest Minecraft update","Remind me to do homework in 1 hour"];
+function emptyChat(){$("#msgs").innerHTML=`<div class="empty"><div class="logo" style="margin:0 auto;width:54px;height:54px;font-size:24px">V</div><h2>Good day. How may I assist?</h2><div class="sugg">${SUGG.map(x=>`<div onclick="chatSend(this.textContent)">${esc(x)}</div>`).join("")}</div></div>`;}
+function addCM(role,text,extra){const e=$("#msgs .empty");if(e)e.remove();const d=document.createElement("div");d.className="cm "+(role=="user"?"you":"vex");d.dataset.raw=text+(extra&&extra.detail?"\n\n"+extra.detail:"");
+ d.innerHTML=`<div class="av">${role=="user"?"C":"V"}</div><div class="bub"><div class="md">${md(text)}${extra&&extra.detail?md(extra.detail):""}</div>${role!="user"?`<div class="meta"><button class="copy" onclick="copyMsg(this)">Copy</button>${extra&&extra.brain?`<span>${esc(extra.brain)}</span>`:""}${extra&&extra.tools&&extra.tools.length?`<span>🛠 ${extra.tools.map(esc).join(", ")}</span>`:""}${extra&&extra.note?`<span>${esc(extra.note)}</span>`:""}</div>`:""}</div>`;
+ if(extra&&extra.needs_confirm){const c=document.createElement("div");c.className="confirm";c.innerHTML=`⚠️ <span style="flex:1">Confirm: ${esc(extra.confirm_what||"this action")}</span><button class="btn p">Yes</button><button class="btn">No</button>`;
+  const [y,n]=c.querySelectorAll("button");y.onclick=()=>doConfirm(extra.confirm_id,true,c);n.onclick=()=>doConfirm(extra.confirm_id,false,c);d.querySelector(".bub").appendChild(c);}
+ $("#msgs").appendChild(d);$("#msgs").scrollTop=1e9;return d;}
+async function doConfirm(id,yes,el){el.innerHTML=yes?"Doing it…":"Cancelled.";const r=await api().chat_confirm(id,yes);el.remove();addCM("user",yes?"Yes":"No");addCM("assistant",r.reply,r);loadChats();}
+async function chatSend(text){const a=api();if(!a||BUSY||!text.trim())return;BUSY=true;if(!CID)CID=await a.chat_new();
+ addCM("user",text);const p=document.createElement("div");p.className="cm vex pend";p.innerHTML=`<div class="av">V</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span> <span class="tl" style="color:var(--dim);font-size:12.5px"></span></div>`;$("#msgs").appendChild(p);$("#msgs").scrollTop=1e9;setState("thinking");
+ try{const r=await a.chat_send(CID,text);p.remove();CID=r.chat_id||CID;addCM("assistant",r.reply||"(no reply)",r);}catch(e){p.remove();addCM("assistant","Something broke: "+e);}
+ BUSY=false;setState(LISTEN?"sleeping":"paused");loadChats();}
+async function loadChats(){const a=api();if(!a||!a.chat_list)return;const l=await a.chat_list();$("#chatItems").innerHTML=l.map(c=>`<div class="ci ${c.id==CID?"on":""}" onclick="openChat('${c.id}')"><span>${esc(c.title)}</span><b class="x" onclick="event.stopPropagation();delChat('${c.id}')">✕</b></div>`).join("");}
+window.openChat=async id=>{goPage("chat");CID=id;const c=await api().chat_load(id);$("#msgs").innerHTML="";if(!c.messages.length)emptyChat();c.messages.forEach(m=>addCM(m.role,m.content,m));loadChats();};
+let DELC=null;window.delChat=async id=>{if(DELC!==id){DELC=id;toast("Delete chat?","Click ✕ again to delete it.");setTimeout(()=>DELC=null,4000);return;}await api().chat_delete(id);if(id==CID){CID=null;emptyChat();}loadChats();};
+$("#newChat").onclick=()=>{CID=null;emptyChat();loadChats();$("#cIn").focus();};
+const cIn=$("#cIn");cIn.oninput=()=>{cIn.style.height="auto";cIn.style.height=Math.min(cIn.scrollHeight,220)+"px";};
+cIn.onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey){e.preventDefault();const v=cIn.value;cIn.value="";cIn.oninput();chatSend(v);}};
+$("#cSend").onclick=()=>{const v=cIn.value;cIn.value="";cIn.oninput();chatSend(v);};
+$("#cStop").onclick=()=>api()&&api().stop_all();$("#cPtt").onclick=()=>api()&&api().push_to_talk();
+emptyChat();
+// ---------- memory
+function drawMem(m){$("#memList").innerHTML=m.length?m.map(x=>`<div class="memrow"><input value="${esc(x.text)}" onchange="memE('${x.id}',this.value)"><button class="btn" onclick="memD('${x.id}')">Delete</button></div>`).join(""):'<div style="color:var(--dim)">Nothing saved yet.</div>';}
+async function loadMem(){const a=api();if(a&&a.memory_list)drawMem(await a.memory_list());}
+window.memE=async(id,v)=>{drawMem(await api().memory_edit(id,v));toast("Memory","Saved ✓");};window.memD=async id=>drawMem(await api().memory_delete(id));
+$("#memAdd").onclick=async()=>{const v=$("#memIn").value.trim();if(v){drawMem(await api().memory_add(v));$("#memIn").value="";}};$("#memIn").onkeydown=e=>{if(e.key=="Enter")$("#memAdd").click();};
+// ---------- settings
+const TOG=["ui_sounds","boot_voice","hand_control","hand_control_remember","hand_mouse","proactive_trending","start_with_windows","close_to_tray","phone_enabled","morning_briefing","briefing_on_unlock","voice_fx"];TOG.forEach(id=>$("#"+id).onclick=e=>e.target.classList.toggle("on"));
+async function loadSettings(){const a=api();if(!a)return;const s=await a.get_settings();const mics=await a.list_mics();const spk=a.list_speakers?await a.list_speakers():[];
+ $("#speaker_device").innerHTML=`<option value="">Windows default</option>`+spk.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
+ {const cams=window.vexListCameras?await vexListCameras():[];$("#hand_camera").innerHTML=`<option value="">First camera found</option>`+cams.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");}
+ $("#mic_device").innerHTML=`<option value="">Windows default</option>`+mics.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
+ document.querySelectorAll("#form input,#form select").forEach(el=>{let v=s[el.id];if(Array.isArray(v))v=v.join(", ");if(el.type=="password"){el.value="";el.placeholder=s[el.id+"_set"]?"saved – leave blank to keep":(el.placeholder||"");}else el.value=(v===null||v===undefined)?"":v;});
+ TOG.forEach(id=>$("#"+id).classList.toggle("on",!!s[id]));loadPhone();}
+// ---------- phone
+let PH=null,PHSHOW=false;
+function drawPhone(){if(!PH)return;
+ $("#phStatus").innerHTML=PH.running?`<span class="dot g"></span> On – listening at ${esc(PH.ip)}:${PH.port}`:(PH.enabled?`<span class="dot y"></span> Starting… ${esc(PH.error)}`:`<span class="dot"></span> Off`);
+ $("#phUrl").textContent=PH.command_url||"(no Wi-Fi address yet)";
+ $("#phKey").textContent=PHSHOW?PH.key:"•••••-•••••-•••••-•••••";$("#phShow").textContent=PHSHOW?"Hide":"Show";
+ $("#phQr").innerHTML=PH.qr_svg||"";}
+async function loadPhone(){const a=api();if(!a||!a.get_phone_info)return;PH=await a.get_phone_info();drawPhone();}
+$("#phShow").onclick=()=>{PHSHOW=!PHSHOW;drawPhone();};
+$("#phQrBtn").onclick=async()=>{await loadPhone();const q=$("#phQr");const on=q.style.display=="none";q.style.display=on?"block":"none";$("#phQrBtn").textContent=on?"Hide QR code":"Show QR code";};
+let PHNEW=0;$("#phNew").onclick=async()=>{const b=$("#phNew");if(Date.now()-PHNEW>4000){PHNEW=Date.now();b.textContent="Click again to replace key";setTimeout(()=>b.textContent="New key",4000);return;}PHNEW=0;b.textContent="New key";PH=await api().new_phone_key();PHSHOW=true;drawPhone();};
+setInterval(()=>{if($("#settings").classList.contains("on"))loadPhone();},5000);
+$("#save").onclick=async()=>{const d={};document.querySelectorAll("#form input,#form select").forEach(el=>d[el.id]=el.value);d.mic_device=d.mic_device===""?null:parseInt(d.mic_device);TOG.forEach(id=>d[id]=$("#"+id).classList.contains("on"));
+ const r=await api().save_settings(d);$("#saveMsg").style.color=r.warn?"var(--warn)":"var(--ok)";$("#saveMsg").textContent=r.warn||"Saved ✓";refresh();setTimeout(loadPhone,1500);setTimeout(()=>$("#saveMsg").textContent="",6000);};
+$("#huePair").onclick=async()=>{$("#hueMsg").textContent="Pairing…";const r=await api().hue_pair($("#hue_bridge_ip").value);$("#hueMsg").textContent=r.msg;$("#hueMsg").style.color=r.ok?"var(--ok)":"var(--warn)";};
+$("#haTest").onclick=async()=>{$("#haMsg").textContent="Testing…";const r=await api().ha_test();$("#haMsg").textContent=r.msg;$("#haMsg").style.color=r.ok?"var(--ok)":"var(--warn)";};
+$("#testVoice").onclick=()=>api()&&api().test_voice();
+// preview mode (no python): ?demo / ?demo=chat
+if(location.search.includes("demo")){setState("sleeping");chip("Mic","Mic: listening for wake phrase","p");chip("Stt","Speech: cpu (base.en)","g");chip("Llm","Brain: qwen2.5:3b ready","g");
+ drawDash({greeting:"Good afternoon",brain:"Local · qwen2.5:3b",stats:{cpu:18,ram:46,ram_total:16,disk_free:12,disk_pct:95},weather:{place:"Your city",temp:78,feels:75,desc:"partly cloudy",unit:"°F",days:[{date:"2026-10-11",hi:82,lo:55,desc:"partly cloudy",rain:5},{date:"2026-10-12",hi:76,lo:50,desc:"cloudy",rain:20},{date:"2026-10-13",hi:70,lo:46,desc:"rain showers",rain:60}]},
+  todos:[{id:"1",text:"Finish science project",done:false},{id:"2",text:"Edit Monkey Media video",done:false},{id:"3",text:"Math worksheet",done:true}],reminders:[{id:"a",text:"Study for history quiz",due:new Date(Date.now()+3600e3).toISOString()}],
+  recent:[{id:"x",title:"Explain fractions step by step"},{id:"y",title:"Python file renamer"},{id:"z",title:"Who won the 2026 World Cup?"}]});
+ [["you","wake up"],["vex","I'm up, what's good?"],["you","what's the weather tomorrow"],["vex","Cloudy, high of 76. Chill day."]].forEach(m=>addMsg(...m));
+ setInterval(()=>target=0.2+Math.random()*0.3,160);
+ if(location.search.includes("chat")){goPage("chat");$("#chatItems").innerHTML='<div class="ci on"><span>Explain fractions step by step</span></div><div class="ci"><span>Python file renamer</span></div><div class="ci"><span>Who won the 2026 World Cup?</span></div>';
+  addCM("user","How do I add 2/3 + 1/4? Explain it step by step");
+  addCM("assistant","Bet, here's how:\n\n1. **Find a common denominator.** 3 and 4 both go into **12**.\n2. **Convert:** 2/3 = 8/12 and 1/4 = 3/12\n3. **Add the tops:** 8 + 3 = 11\n\nSo **2/3 + 1/4 = 11/12**. Want me to quiz you on a few?",{brain:"Local · qwen2.5:3b"});
+  addCM("user","write python that checks my answer");
+  addCM("assistant","Here you go:\n\n```python\nfrom fractions import Fraction\nprint(Fraction(2, 3) + Fraction(1, 4))  # 11/12\n```\n\nWant me to run it?",{brain:"Local · qwen2.5:3b",tools:["run_python"],needs_confirm:true,confirm_what:"run Python code (check fraction answer)"});
+  $("#brainChip").textContent="Brain: Local · qwen2.5:3b";}}
+</script><style id="v27">
+:root{--amber:#fbbf24}
+#links{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:0}
+#home .dash.hud[data-tab=home]{perspective:1800px}
+.dash.hud .w:not(.hero){backdrop-filter:blur(7px) saturate(1.25);background:linear-gradient(155deg,rgba(16,56,84,.50),rgba(4,16,28,.42) 60%,rgba(8,30,48,.5))!important;
+ transform:perspective(1600px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(var(--px,0px),var(--py,0px),0);transition:transform .35s ease-out}
+.w .scan{position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(100deg,transparent 42%,rgba(103,232,249,.075) 50%,transparent 58%);background-size:260% 100%;animation:scanX 8s linear infinite}
+.w .scan:nth-child(odd){animation-delay:-3s}
+@keyframes scanX{from{background-position:160% 0}to{background-position:-90% 0}}
+.fxbox{position:relative;flex:1;min-height:clamp(110px,14vh,420px);margin-top:.8em;display:flex}
+.fxc{position:absolute;inset:0;width:100%;height:100%}
+.fxl{position:absolute;left:0;top:0;font:600 .7rem "VexMono",monospace;letter-spacing:.14em;color:#67e8f9;opacity:.7;z-index:1}
+#ticker{position:absolute;left:5%;right:5%;top:2.4em;height:1.5em;overflow:hidden;font:.8rem "VexMono",monospace;color:#67e8f9;opacity:.85;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);z-index:2}
+#tickS{display:inline-block;white-space:nowrap;padding-left:100%;animation:tick 60s linear infinite;animation-delay:-14s}
+#tickS .wn{color:var(--amber)}
+@keyframes tick{to{transform:translateX(-100%)}}
+.gauge .grot{fill:none;stroke:#22d3ee;stroke-width:.8;opacity:.55;transform-origin:50px 50px;animation:spin 14s linear infinite}
+.gauge .grot.r2{animation-duration:9s;animation-direction:reverse;opacity:.35}
+.gauge.hot .grot{stroke:var(--amber)}
+#bootL .ck{font-size:1rem;letter-spacing:.08em;white-space:pre}#bootL .ck b{color:#4ade80;font-weight:400}#bootL .pend{color:var(--amber)!important}
+#bootL .ck.all{margin-top:.6em;color:#e0faff;text-shadow:0 0 12px #22d3ee;letter-spacing:.3em}
+html.rm .w .scan,html.rm #tickS,html.rm .gauge .grot{animation:none}html.rm #links{display:none}
+</style>
+<script>
+(function(){
+ const $=s=>document.querySelector(s),dash=$(".dash.hud");
+ // scanning highlight layer on each glass panel
+ document.querySelectorAll(".dash.hud .w:not(.hero)").forEach(w=>{const s=document.createElement("i");s.className="scan";w.prepend(s);});
+ // live system-log ticker
+ const TK=["VEX CORE ONLINE","VOICE MATRIX READY","LOCAL BRAIN LINKED","PC INDEX MOUNTED"];
+ const tk=()=>{$("#tickS").innerHTML=TK.slice(-10).map(x=>{const w=/WARN|HOT|ERR/.test(x);return `<span class="${w?"wn":""}">${w?"▲":"◆"} ${x.replace(/[<>&]/g,"")}</span>`}).join("&nbsp;&nbsp;&nbsp;");};
+ window.vexTick=x=>{const d=new Date();TK.push(d.toTimeString().slice(0,8)+" "+String(x).toUpperCase());if(TK.length>30)TK.shift();tk();};tk();
+ setInterval(()=>{const g=[...document.querySelectorAll(".gauge")].map(e=>[e.querySelector(".gl")?.textContent,+e.querySelector("b")?.textContent]);if(!g.length)return;
+  vexTick(g.map(([l,v])=>l+" "+(isNaN(v)?"--":v)+"%").join(" · "));const hot=g.find(([l,v])=>v>=85);if(hot)vexTick("WARN "+hot[0]+" LOAD HIGH");},6000);
+ if(window.vexOn){const o=window.vexOn;window.vexOn=(ev,d)=>{try{if(ev=="state")vexTick("STATE "+d.state);else if(ev=="feed")vexTick((d.kind||"")+" "+(d.text||""));else if(ev=="chat_tool")vexTick("TOOL "+d.tool);}catch(e){}return o(ev,d);};}
+ // parallax + base 3D tilt
+ let mx=0,my=0,dirty=true;addEventListener("mousemove",e=>{mx=e.clientX/innerWidth*2-1;my=e.clientY/innerHeight*2-1;dirty=true;},{passive:true});
+ function tilt(){const cx=innerWidth/2;document.querySelectorAll(".dash.hud .w:not(.hero)").forEach(w=>{if(!w.offsetParent)return;const r=w.getBoundingClientRect(),off=((r.left+r.width/2)-cx)/cx;
+  w.style.setProperty("--ry",(-off*5+mx*2.5).toFixed(2)+"deg");w.style.setProperty("--rx",(-my*2).toFixed(2)+"deg");w.style.setProperty("--px",(mx*-5).toFixed(1)+"px");w.style.setProperty("--py",(my*-4).toFixed(1)+"px");});}
+ // shared fx loop: links, globe, radar (30fps, paused when hidden)
+ const L=$("#links"),lx=L.getContext("2d"),dpr=Math.min(2,devicePixelRatio||1);let paths=[],lastP=0,last=0,T=0;
+ const fit=c=>{const w=Math.round(c.clientWidth*dpr),h=Math.round(c.clientHeight*dpr);if(c.width!=w||c.height!=h){c.width=w;c.height=h;}return [w,h];};
+ function linkPaths(){paths=[];if(dash.dataset.tab!="home")return;const o=$("#orb").getBoundingClientRect();if(!o.width)return;const cx=o.left+o.width/2,cy=o.top+o.height/2,R=o.width*0.47;
+  document.querySelectorAll(".dash.hud .w:not(.hero)").forEach((w,i)=>{if(!w.offsetParent)return;const r=w.getBoundingClientRect();const ex=cx<r.left?r.left:cx>r.right?r.right:cx,ey=Math.max(r.top+30,Math.min(r.bottom-30,cy+(r.top+r.height/2-cy)*0.6));
+   const dx=ex-cx,dy=ey-cy,dl=Math.hypot(dx,dy)||1,sx=cx+dx/dl*R,sy=cy+dy/dl*R,kx=ex-Math.sign(dx)*Math.min(60,Math.abs(ex-sx)*0.4);
+   const pts=[[sx,sy],[kx,ey],[ex,ey]];let len=0;const segL=[];for(let k=1;k<pts.length;k++){const l=Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]);segL.push(l);len+=l;}paths.push({pts,segL,len,dir:i%2?1:-1});});}
+ const at=(p,s)=>{let d=s*p.len;for(let k=0;k<p.segL.length;k++){if(d<=p.segL[k]){const f=d/p.segL[k],a=p.pts[k],b=p.pts[k+1];return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}d-=p.segL[k];}return p.pts[p.pts.length-1];};
+ function links(){fit(L);lx.setTransform(dpr,0,0,dpr,0,0);lx.clearRect(0,0,innerWidth,innerHeight);
+  paths.forEach((p,i)=>{lx.beginPath();p.pts.forEach((q,k)=>k?lx.lineTo(q[0],q[1]):lx.moveTo(q[0],q[1]));lx.strokeStyle="rgba(34,211,238,.28)";lx.lineWidth=1;lx.stroke();
+   const e=p.pts[p.pts.length-1];lx.fillStyle="rgba(103,232,249,.8)";lx.fillRect(e[0]-2.5,e[1]-2.5,5,5);
+   for(let k=0;k<3;k++){let s=((T*0.18*(1+i*0.07)+k/3)%1);if(p.dir<0)s=1-s;const [x,y]=at(p,s);const amb=(i==2&&k==0);
+    lx.fillStyle=amb?"rgba(251,191,36,.25)":"rgba(103,232,249,.22)";lx.beginPath();lx.arc(x,y,6,0,6.283);lx.fill();lx.fillStyle=amb?"#fde68a":"#e0faff";lx.beginPath();lx.arc(x,y,1.8,0,6.283);lx.fill();}});}
+ // wireframe globe
+ const G=$("#globe"),gx=G&&G.getContext("2d");
+ function globe(){if(!G||!G.offsetParent)return;const [w,h]=fit(G);gx.clearRect(0,0,w,h);const R=Math.min(w,h)*0.42,cx=w/2,cy=h/2+h*0.04,ry=T*0.35,tl=0.38,ct=Math.cos(tl),st=Math.sin(tl),F=R*3.2;
+  const P=(la,lo)=>{let x=Math.cos(la)*Math.sin(lo+ry),y=Math.sin(la),z=Math.cos(la)*Math.cos(lo+ry);const y2=y*ct-z*st,z2=y*st+z*ct;const k=F/(F-z2*R);return [cx+x*R*k,cy-y2*R*k,z2];};
+  gx.lineWidth=1*dpr;const line=(fn,n)=>{let pr=null;for(let i=0;i<=n;i++){const q=fn(i/n);if(pr){gx.strokeStyle=`rgba(34,211,238,${q[2]>0?0.6:0.14})`;gx.beginPath();gx.moveTo(pr[0],pr[1]);gx.lineTo(q[0],q[1]);gx.stroke();}pr=q;}};
+  for(let la=-60;la<=60;la+=30)line(u=>P(la*Math.PI/180,u*6.283),48);for(let lo=0;lo<180;lo+=30)line(u=>P(u*6.283,lo*Math.PI/180),48);
+  [[0.7,1.2],[0.2,-0.8],[-0.4,2.4],[0.9,-2.2],[-0.1,0.3]].forEach(([la,lo],i)=>{const q=P(la,lo);if(q[2]<0)return;const amb=i==3;gx.fillStyle=amb?"#fbbf24":"#e0faff";gx.beginPath();gx.arc(q[0],q[1],2.6*dpr,0,6.283);gx.fill();
+   gx.strokeStyle=amb?"rgba(251,191,36,.5)":"rgba(103,232,249,.45)";gx.beginPath();gx.arc(q[0],q[1],(4+((T*2+i)%1)*9)*dpr,0,6.283);gx.stroke();});
+  gx.strokeStyle="rgba(34,211,238,.35)";gx.beginPath();gx.ellipse(cx,cy+R*1.02,R*1.1,R*0.16,0,0,6.283);gx.stroke();}
+ // radar sweep with hex field
+ const D=$("#radar"),dx=D&&D.getContext("2d");const BL=[[0.3,0.5],[0.62,2.1],[0.8,3.6],[0.45,4.9],[0.7,5.6]];
+ function radar(){if(!D||!D.offsetParent)return;const [w,h]=fit(D);dx.clearRect(0,0,w,h);const R=Math.min(w,h)*0.44,cx=w/2,cy=h/2+h*0.04,a=T*1.4%6.283;
+  dx.strokeStyle="rgba(34,211,238,.10)";dx.lineWidth=1;const s=14*dpr;for(let y=0,r=0;y<h+s;y+=s*0.87,r++)for(let x=(r%2)*s/2;x<w+s;x+=s){if(Math.hypot(x-cx,y-cy)>R)continue;dx.beginPath();for(let k=0;k<6;k++){const q=k/6*6.283;dx.lineTo(x+Math.cos(q)*s*0.45,y+Math.sin(q)*s*0.45);}dx.closePath();dx.stroke();}
+  dx.strokeStyle="rgba(34,211,238,.4)";[1,0.66,0.33].forEach(f=>{dx.beginPath();dx.arc(cx,cy,R*f,0,6.283);dx.stroke();});dx.beginPath();dx.moveTo(cx-R,cy);dx.lineTo(cx+R,cy);dx.moveTo(cx,cy-R);dx.lineTo(cx,cy+R);dx.stroke();
+  for(let k=0;k<24;k++){dx.fillStyle=`rgba(34,211,238,${0.22*(1-k/24)})`;dx.beginPath();dx.moveTo(cx,cy);dx.arc(cx,cy,R,a-(k+1)*0.04,a-k*0.04);dx.closePath();dx.fill();}
+  dx.strokeStyle="rgba(165,243,252,.9)";dx.beginPath();dx.moveTo(cx,cy);dx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);dx.stroke();
+  BL.forEach(([d,b],i)=>{const age=((a-b)%6.283+6.283)%6.283/6.283,al=Math.max(0,1-age*1.6);if(al<=0)return;dx.fillStyle=i==2?`rgba(251,191,36,${al})`:`rgba(224,250,255,${al})`;dx.beginPath();dx.arc(cx+Math.cos(b)*R*d,cy+Math.sin(b)*R*d,3*dpr,0,6.283);dx.fill();});}
+ function frame(ts){requestAnimationFrame(frame);if(vexHidden()||ts-last<33)return;T+=(Math.min(100,ts-last||33))/1000;last=ts;
+  if(ts-lastP>500||dirty){tilt();linkPaths();lastP=ts;dirty=false;}links();globe();radar();}
+ addEventListener("resize",()=>{dirty=true;});new MutationObserver(()=>dirty=true).observe(dash,{attributes:true,attributeFilter:["data-tab"]});
+ requestAnimationFrame(frame);
+})();
+</script>
+<style id="v28">
+#gl{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:.95}
+#bgfx{transform:translate(var(--bx,0px),var(--by,0px)) scale(1.03);transition:transform .4s ease-out}
+#interf{position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(180deg,rgba(103,232,249,.035) 0 1px,transparent 1px 4px);animation:interf 6s linear infinite;mix-blend-mode:screen}
+#interf::after{content:"";position:absolute;left:0;right:0;height:14vh;top:-20vh;background:linear-gradient(180deg,transparent,rgba(103,232,249,.05),transparent);animation:iband 11s linear infinite}
+@keyframes interf{to{background-position:0 40px}}@keyframes iband{to{top:120vh}}
+#amb{position:fixed;inset:-20%;pointer-events:none;z-index:49;background:linear-gradient(115deg,transparent 42%,rgba(125,211,252,.045) 50%,transparent 58%);background-size:300% 100%;animation:amb 16s ease-in-out infinite}
+@keyframes amb{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
+.hud .w h4,.hud .big,.hud .gn b{text-shadow:-1px 0 rgba(255,70,110,.45),1px 0 rgba(70,230,255,.55),0 0 14px rgba(34,211,238,.35)}
+.dash.hud .w:not(.hero)::after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid transparent;background:linear-gradient(90deg,rgba(255,70,110,.18),transparent 6%,transparent 94%,rgba(70,230,255,.25)) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0)}
+body.booted .dash.hud .w:not(.hero),.dash.hud.unf .w:not(.hero){animation:unfold .85s cubic-bezier(.2,.8,.2,1) backwards}
+.dash.hud .w:nth-of-type(2){animation-delay:.05s!important}.dash.hud .w:nth-of-type(3){animation-delay:.12s!important}.dash.hud .w:nth-of-type(4){animation-delay:.19s!important}.dash.hud .w:nth-of-type(5){animation-delay:.26s!important}
+@keyframes unfold{0%{opacity:0;transform:perspective(1200px) rotateX(-85deg) scaleY(.08);filter:brightness(2.5)}45%{opacity:.6;transform:perspective(1200px) rotateX(-20deg) scaleY(.6)}55%{opacity:.25}70%{opacity:.9}100%{opacity:1;transform:perspective(1200px) rotateX(0) scaleY(1);filter:none}}
+#radial{position:absolute;inset:0;pointer-events:none;z-index:3}
+#radial button{position:absolute;pointer-events:auto;transform:translate(-50%,-50%);font:600 .72rem "VexMono",monospace;letter-spacing:.16em;color:#a5f3fc;background:rgba(6,30,44,.6);border:1px solid rgba(34,211,238,.45);padding:.35em .9em;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);cursor:pointer;transition:.2s}
+#radial button:hover,#radial button.on{background:rgba(34,211,238,.25);color:#fff;box-shadow:0 0 14px rgba(34,211,238,.6)}
+#radial button.on::before{content:"◆ ";color:#fbbf24}
+#reticle{position:fixed;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;pointer-events:none;z-index:60;opacity:.75;will-change:transform}
+#reticle svg{width:100%;height:100%;overflow:visible}#reticle .r1{animation:spin 6s linear infinite;transform-origin:32px 32px}#reticle .r2{animation:spin 9s linear infinite reverse;transform-origin:32px 32px}
+#reticle text{font:7px "VexMono",monospace;fill:#67e8f9}
+body.lowfx #gl,body.lowfx #interf,body.lowfx #amb,body.lowfx #reticle,body.lowfx .w .scan{display:none!important}
+body.lowfx .dash.hud .w:not(.hero){backdrop-filter:none!important}
+#fxBadge{position:fixed;right:1rem;bottom:.6rem;z-index:61;font:.7rem "VexMono",monospace;color:#fbbf24;display:none}body.lowfx #fxBadge{display:block}
+html.rm #interf,html.rm #amb,html.rm #reticle{display:none}html.rm #radial button{transition:none}html.rm body.booted .dash.hud .w:not(.hero),html.rm .dash.hud.unf .w:not(.hero){animation:none!important}
+</style>
+<div id="interf"></div><div id="amb"></div><div id="fxBadge">LOW-FX · GAME MODE</div>
+<div id="reticle"><svg viewBox="0 0 64 64"><g class="r1" fill="none" stroke="#22d3ee" stroke-width="1"><path d="M32 4 A28 28 0 0 1 60 32"/><path d="M32 60 A28 28 0 0 1 4 32"/></g><g class="r2" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-dasharray="3 5"><circle cx="32" cy="32" r="20"/></g><g stroke="#e0faff" stroke-width="1"><line x1="32" y1="22" x2="32" y2="27"/><line x1="32" y1="37" x2="32" y2="42"/><line x1="22" y1="32" x2="27" y2="32"/><line x1="37" y1="32" x2="42" y2="32"/></g><circle cx="32" cy="32" r="1.5" fill="#fbbf24"/><text id="retT" x="44" y="62">0000·0000</text></svg></div>
+<script>
+(function(){const $=s=>document.querySelector(s),dash=$(".dash.hud"),RM=vexRM();
+ // low-FX while Gorilla Tag / SteamVR is running (from dashboard data)
+ if(window.drawDash){const o=window.drawDash;window.drawDash=d=>{try{document.body.classList.toggle("lowfx",!!(d&&d.lowfx));if(d&&d.ui_motion&&d.ui_motion!=(localStorage.getItem("vexMotion")||"full")){localStorage.setItem("vexMotion",d.ui_motion);location.reload();}}catch(e){}return o(d);};}
+ // radial tab menu around the orb
+ const hero=$(".w.hero"),rad=document.createElement("div");rad.id="radial";hero.appendChild(rad);
+ const tabs=[...document.querySelectorAll("#dtabs button")];tabs.forEach(t=>{const b=document.createElement("button");b.textContent=t.textContent.toUpperCase();b.dataset.t=t.dataset.t;b.onclick=()=>t.click();rad.appendChild(b);});
+ const syncR=()=>rad.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.t==dash.dataset.tab));
+ function placeR(){const o=$("#orb").getBoundingClientRect(),h=hero.getBoundingClientRect();if(!o.width)return;const cx=o.left-h.left+o.width/2,cy=o.top-h.top+o.height/2,R=o.width*0.53;
+  rad.querySelectorAll("button").forEach((b,i)=>{const a=(-135+i*90)*Math.PI/180;b.style.left=(cx+Math.cos(a)*R)+"px";b.style.top=(cy+Math.sin(a)*R)+"px";});syncR();}
+ new MutationObserver(()=>{syncR();dash.classList.remove("unf");void dash.offsetWidth;dash.classList.add("unf");}).observe(dash,{attributes:true,attributeFilter:["data-tab"]});
+ addEventListener("resize",placeR);setTimeout(placeR,50);setInterval(placeR,1000);
+ // targeting reticle + layered parallax
+ const ret=$("#reticle");let tx=innerWidth/2,ty=innerHeight/2,rx=tx,ry=ty,last=0;window.__mouse={x:0,y:0};
+ addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY;window.__mouse.x=e.clientX/innerWidth*2-1;window.__mouse.y=e.clientY/innerHeight*2-1;},{passive:true});
+ function loop(ts){requestAnimationFrame(loop);if(vexHidden()||ts-last<33)return;last=ts;rx+=(tx-rx)*0.25;ry+=(ty-ry)*0.25;ret.style.transform=`translate(${rx.toFixed(1)}px,${ry.toFixed(1)}px)`;
+  if(((ts/33)|0)%6==0){$("#retT").textContent=String(rx|0).padStart(4,"0")+"·"+String(ry|0).padStart(4,"0");const b=$("#bgfx");b.style.setProperty("--bx",(-window.__mouse.x*10).toFixed(1)+"px");b.style.setProperty("--by",(-window.__mouse.y*8).toFixed(1)+"px");}}
+ if(!RM)requestAnimationFrame(loop);
+})();
+</script>
+
+<style id="v29">
+/* ---- 2.9: bolder holo look ---- */
+:root{--cy:#22e5ff;--cy2:#7df9ff;--amber:#ffb627}
+body{background:#01060c!important}
+#bgfx{opacity:.55}
+#rain{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:0}
+#gl{z-index:0;opacity:1}
+.hud .w.hero{background:transparent!important}
+.dash.hud .w:not(.hero){backdrop-filter:blur(3px) saturate(1.4)!important;background:linear-gradient(155deg,rgba(10,60,90,.34),rgba(2,14,26,.30) 55%,rgba(6,40,64,.38))!important;
+ border:1px solid rgba(34,229,255,.55)!important;filter:drop-shadow(0 0 10px rgba(34,229,255,.28))}
+.hud .w h4{font-family:"VexMono",monospace!important;font-weight:400!important;letter-spacing:.32em!important;color:var(--cy2)!important;font-size:.78rem!important}
+.hud .big{font-weight:300!important;letter-spacing:.12em;color:#e8fdff;text-shadow:0 0 18px rgba(34,229,255,.9),0 0 42px rgba(34,229,255,.45)!important}
+#greet{font-weight:300!important;letter-spacing:.08em;text-shadow:0 0 22px rgba(34,229,255,.8)}
+#stateText,#hint,.readout,.fxl,.sub{letter-spacing:.12em}
+#greet{color:#eafcff!important;font-weight:400!important;-webkit-text-fill-color:#eafcff}
+#greet,#stateText,#hint{position:relative;z-index:2;text-shadow:0 0 4px #01060c,0 0 10px #01060c,0 0 22px rgba(34,229,255,.6)!important}
+.inputbar{background:rgba(2,14,24,.85)!important;position:relative;z-index:2}
+.readout{color:var(--cy2)!important;opacity:.9}
+#tabs button,#dtabs button{letter-spacing:.22em;font-weight:300}
+/* full-screen HUD frame */
+#frame{position:fixed;inset:0;pointer-events:none;z-index:55}
+#frame svg{width:100%;height:100%}
+#frame .fl{stroke:var(--cy);stroke-width:1.2;fill:none;opacity:.75;filter:drop-shadow(0 0 4px #22e5ff)}
+#frame .tk{stroke:var(--cy);stroke-width:1;opacity:.45}
+#frame text{font:10px "VexMono",monospace;fill:var(--cy2);letter-spacing:.25em;opacity:.8}
+#frame .am{stroke:var(--amber);fill:var(--amber)}
+body.lowfx #rain{display:none}
+html.rm #rain{display:none}
+</style>
+<div id="frame"><svg id="frameSvg" preserveAspectRatio="none"></svg></div>
+<canvas id="rain"></canvas>
+<script>
+// HUD frame around the whole screen edge (redrawn on resize)
+(function(){const sv=document.getElementById("frameSvg");function draw(){const W=innerWidth,H=innerHeight,m=6,c=26;sv.setAttribute("viewBox",`0 0 ${W} ${H}`);let t="";
+ t+=`<path class="fl" d="M${m+c},${m} H${W/2-160} l10,8 H${W/2+150} l10,-8 H${W-m-c} L${W-m},${m+c} V${H/2-120} l-6,10 V${H/2+110} l6,10 V${H-m-c} L${W-m-c},${H-m} H${W/2+160} l-10,-8 H${W/2-150} l-10,8 H${m+c} L${m},${H-m-c} V${H/2+120} l6,-10 V${H/2-110} l-6,-10 V${m+c} Z"/>`;
+ for(let x=m+c+20;x<W-m-c-20;x+=24){const big=((x/24)|0)%5==0;t+=`<line class="tk" x1="${x}" y1="${H-m}" x2="${x}" y2="${H-m-(big?8:4)}"/>`;}
+ for(let y=m+c+20;y<H-m-c-20;y+=24){const big=((y/24)|0)%5==0;t+=`<line class="tk" x1="${m}" y1="${y}" x2="${m+(big?8:4)}" y2="${y}"/><line class="tk" x1="${W-m}" y1="${y}" x2="${W-m-(big?8:4)}" y2="${y}"/>`;}
+ t+=`<rect class="am" x="${W/2-4}" y="${m+1}" width="8" height="3"/><text x="${W/2-140}" y="${H-m-12}">VEX HOLO INTERFACE // GRID ${W}×${H}</text><text x="${W-m-210}" y="${H-m-12}" id="frT">SYNC 00:00:00</text>`;sv.innerHTML=t;}
+ addEventListener("resize",draw);draw();setInterval(()=>{const e=document.getElementById("frT");if(e)e.textContent="SYNC "+new Date().toTimeString().slice(0,8);},1000);})();
+// number rain: streams in the margins and gaps (behind the glass), 30fps cap
+(function(){const c=document.getElementById("rain"),x=c.getContext("2d"),RM=vexRM();if(RM)return;let W,H,cols=[],last=0;const F=14,CH="0123456789ABCDEF<>/:+-";
+ function fit(){W=c.width=innerWidth;H=c.height=innerHeight;cols=[];const n=Math.floor(W/F);for(let i=0;i<n;i++){const edge=Math.min(i,n-1-i)/n;if(edge>0.07&&Math.random()>0.18)continue;cols.push({x:i*F,y:Math.random()*H,v:40+Math.random()*120,a:edge<0.07?0.9:0.35});}}
+ addEventListener("resize",fit);fit();
+ function f(ts){requestAnimationFrame(f);if(vexHidden()||document.body.classList.contains("lowfx")||ts-last<33)return;const dt=Math.min(.1,(ts-last)/1000);last=ts;
+  x.globalCompositeOperation="destination-out";x.fillStyle="rgba(0,0,0,.2)";x.fillRect(0,0,W,H);x.globalCompositeOperation="source-over";x.font=F+"px VexMono, monospace";
+  cols.forEach(o=>{o.y+=o.v*dt;if(o.y>H+40)o.y=-Math.random()*200;const ch=CH[(Math.random()*CH.length)|0];x.fillStyle=`rgba(200,255,255,${o.a})`;x.fillText(ch,o.x,o.y);x.fillStyle=`rgba(34,229,255,${o.a*0.55})`;x.fillText(CH[(Math.random()*CH.length)|0],o.x,o.y-F);});}
+ requestAnimationFrame(f);})();
+</script>
+<script type="module">
+// 3D holographic scene (three.js r160 bundled in ui/lib). Falls back to a 2D particle field if WebGL is unavailable.
+const LOG=m=>{try{window.vexUiLog&&vexUiLog(m)}catch(e){}};
+let THREE=null;try{THREE=await import("./lib/three.module.min.js");window.__threeOK="r"+THREE.REVISION;THREE.ColorManagement.enabled=false;}catch(e){LOG("three import failed: "+e.message);}
+const cv=document.getElementById("gl"),RM=vexRM(),low=()=>document.body.classList.contains("lowfx");
+let R=null;if(THREE){try{R=new THREE.WebGLRenderer({canvas:cv,alpha:false,antialias:true,powerPreference:"high-performance"});R.setClearColor(0x01060c,1);R.outputColorSpace=THREE.LinearSRGBColorSpace;}catch(e){LOG("webgl failed: "+e.message);}}
+if(!R){ // ---- 2D fallback: bold particle field + glow
+ const x=cv.getContext("2d");let P=[],last=0;const fit=()=>{cv.width=innerWidth;cv.height=innerHeight;P=Array.from({length:500},()=>({a:Math.random()*6.283,r:Math.random(),z:Math.random()}));};addEventListener("resize",fit);fit();
+ const f=ts=>{requestAnimationFrame(f);if(vexHidden()||ts-last<33)return;last=ts;const W=cv.width,H=cv.height,o=document.getElementById("orb").getBoundingClientRect(),cx=o.left+o.width/2||W/2,cy=o.top+o.height/2||H/2;x.clearRect(0,0,W,H);
+  const g=x.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*0.45);g.addColorStop(0,"rgba(34,229,255,.35)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,W,H);
+  P.forEach(p=>{p.a+=0.002+p.z*0.004;const rr=o.width*(0.55+p.r*0.9);x.fillStyle=`rgba(160,250,255,${0.25+p.z*0.6})`;x.fillRect(cx+Math.cos(p.a)*rr,cy+Math.sin(p.a)*rr*0.9,1+p.z*2,1+p.z*2);});};requestAnimationFrame(f);LOG("3D: 2D fallback active");
+}else{
+ const S=new THREE.Scene();S.fog=new THREE.FogExp2(0x00030a,0.021);const C=new THREE.PerspectiveCamera(55,1,0.1,400);C.position.set(0,0,16);
+ const glowTex=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d"),g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,"rgba(255,255,255,1)");g.addColorStop(.25,"rgba(150,250,255,.9)");g.addColorStop(.6,"rgba(34,229,255,.25)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);})();
+ const ADD={transparent:true,depthWrite:false,blending:THREE.AdditiveBlending};
+ const pts=(arr,sz,col,op)=>{const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(arr,3));return new THREE.Points(g,new THREE.PointsMaterial({size:sz,map:glowTex,color:col,opacity:op,sizeAttenuation:true,...ADD}));};
+ // --- central orb group
+ const orb=new THREE.Group();S.add(orb);const shells=[];
+ [[4200,3.2,0.2,0x9ffcff,.45],[2600,4.3,0.18,0x22e5ff,.35],[1600,5.6,0.16,0x0ea5e9,.25]].forEach(([n,r,sz,col,op])=>{const p=new Float32Array(n*3);for(let i=0;i<n;i++){const y=1-2*(i+.5)/n,rr=Math.sqrt(1-y*y),t=i*2.39996,j=r*(1+(Math.random()-.5)*0.08);p[i*3]=Math.cos(t)*rr*j;p[i*3+1]=y*j;p[i*3+2]=Math.sin(t)*rr*j;}const o=pts(p,sz,col,op);shells.push(o);orb.add(o);});
+ const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0x3fd8f0,opacity:.35,...ADD}));halo.scale.set(18,18,1);orb.add(halo);
+ const core=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xbff8ff,opacity:.6,...ADD}));core.scale.set(5,5,1);orb.add(core);
+ // layered holographic wireframe spheres (depth)
+ const wires=[];[[2.4,1,0x7df9ff,.32],[3.6,2,0x22e5ff,.2],[4.9,1,0x0ea5e9,.14],[6.0,3,0x5ff3ff,.07]].forEach(([r,d,c,o])=>{const m=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(r,d)),new THREE.LineBasicMaterial({color:c,opacity:o,...ADD}));wires.push(m);orb.add(m);});
+ {const g=new THREE.BufferGeometry(),v=[];for(let k=0;k<12;k++){const a=k/12*Math.PI;for(let i=0;i<64;i++){const t1=i/64*6.283,t2=(i+1)/64*6.283;v.push(Math.cos(t1)*Math.cos(a)*4.3,Math.sin(t1)*4.3,Math.cos(t1)*Math.sin(a)*4.3,Math.cos(t2)*Math.cos(a)*4.3,Math.sin(t2)*4.3,Math.cos(t2)*Math.sin(a)*4.3);}}
+  g.setAttribute("position",new THREE.Float32BufferAttribute(v,3));const mer=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x9ffcff,opacity:.08,...ADD}));wires.push(mer);orb.add(mer);}
+ // volumetric light rays (additive tapered planes radiating out)
+ const rayTex=(()=>{const c=document.createElement("canvas");c.width=16;c.height=256;const x=c.getContext("2d"),g=x.createLinearGradient(0,256,0,0);g.addColorStop(0,"rgba(180,255,255,.9)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.beginPath();x.moveTo(6,256);x.lineTo(10,256);x.lineTo(16,0);x.lineTo(0,0);x.fill();return new THREE.CanvasTexture(c);})();
+ const rays=new THREE.Group();orb.add(rays);for(let i=0;i<22;i++){const L=9+Math.random()*12,m=new THREE.Mesh(new THREE.PlaneGeometry(1.6+Math.random()*2.2,L),new THREE.MeshBasicMaterial({map:rayTex,color:i%7==3?0xffb627:0x5ff6ff,opacity:.06+Math.random()*.06,side:THREE.DoubleSide,...ADD}));m.geometry.translate(0,L/2,0);m.rotation.z=i/22*6.283+Math.random()*.2;rays.add(m);}
+ // energy rings
+ const rings=[];[[6.4,0x22e5ff,.9,0.025],[7.3,0xffb627,.55,0.018],[8.4,0x7df9ff,.45,0.012]].forEach(([r,c,o,w],i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(r,w*2,6,200),new THREE.MeshBasicMaterial({color:c,opacity:o,...ADD}));m.rotation.x=Math.PI/2+[-0.35,0.45,0.15][i];m.rotation.y=[0.2,-0.3,0.6][i];rings.push(m);orb.add(m);});
+ // tick-mark gauge ring + orbiting satellites (3.2)
+ const gauge=new THREE.Group();orb.add(gauge);{const v=[];for(let i=0;i<180;i++){const t=i/180*6.283,r1=9.4,r2=i%15==0?10.2:(i%5==0?9.85:9.62);v.push(Math.cos(t)*r1,Math.sin(t)*r1,0,Math.cos(t)*r2,Math.sin(t)*r2,0);}
+  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(v,3));gauge.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x7df9ff,opacity:.22,...ADD})));}
+ gauge.rotation.x=-0.18;
+ const ripples=[];for(let i=0;i<6;i++){const m=new THREE.Mesh(new THREE.RingGeometry(3.4,3.5,96),new THREE.MeshBasicMaterial({color:0x9ffcff,opacity:0,side:THREE.DoubleSide,...ADD}));m.visible=false;m.userData={t:0};ripples.push(m);orb.add(m);}
+ // reactor HUD (3.3): concentric segmented rings with data nodes
+ const reactor=new THREE.Group();orb.add(reactor);reactor.rotation.x=-0.18;const rRings=[];
+ [[11.0,64,.62,0x5ff3ff,.18],[12.4,24,.8,0x7df9ff,.14],[13.9,90,.5,0x22e5ff,.1],[15.6,12,.7,0x9ffcff,.08]].forEach(([r,segs,fill,c,op],k)=>{
+  const v=[];for(let i=0;i<segs;i++){const a0=i/segs*6.283,a1=a0+(6.283/segs)*fill,st=24;for(let j=0;j<st;j++){const t0=a0+(a1-a0)*j/st,t1=a0+(a1-a0)*(j+1)/st;v.push(Math.cos(t0)*r,Math.sin(t0)*r,0,Math.cos(t1)*r,Math.sin(t1)*r,0);}}
+  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(v,3));const ln=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:c,opacity:op,...ADD}));
+  const grp=new THREE.Group();grp.add(ln);
+  const nn=[6,4,8,3][k];for(let i=0;i<nn;i++){const t=i/nn*6.283+k*.4,sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:i==0&&k==1?0xffb627:0xbff8ff,opacity:.55,...ADD}));sp.scale.set(.42,.42,1);sp.position.set(Math.cos(t)*r,Math.sin(t)*r,0);grp.add(sp);
+   const tk=new THREE.BufferGeometry();tk.setAttribute("position",new THREE.Float32BufferAttribute([Math.cos(t)*r,Math.sin(t)*r,0,Math.cos(t)*(r+.9),Math.sin(t)*(r+.9),0],3));grp.add(new THREE.LineSegments(tk,new THREE.LineBasicMaterial({color:0x9ffcff,opacity:.25,...ADD})));}
+  grp.userData={s:[.05,-.08,.03,-.02][k]};rRings.push(grp);reactor.add(grp);});
+ const sats=[];for(let i=0;i<4;i++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:i==2?0xffb627:0xbff8ff,opacity:.8,...ADD}));sp.scale.set(.5,.5,1);sp.userData={r:6.4+i*1.1,s:.35+i*.12,p:i*1.7,tilt:[-.35,.45,.15,-.1][i]};sats.push(sp);orb.add(sp);}
+ // --- glowing perspective grid floor (scrolls toward the camera)
+ const floor=new THREE.Group();S.add(floor);const gm=new THREE.LineBasicMaterial({color:0x1fb6d6,opacity:.3,...ADD});
+ {const v=[];for(let i=-30;i<=30;i++){v.push(i*2,0,-120,i*2,0,10);}for(let j=0;j<=65;j++){v.push(-60,0,10-j*2,60,0,10-j*2);}const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(v,3));floor.add(new THREE.LineSegments(g,gm));}
+ floor.position.y=-9;
+ // --- floating holo-panels at angles in the background
+ const panelTex=()=>{const c=document.createElement("canvas");c.width=256;c.height=160;const x=c.getContext("2d");x.strokeStyle="rgba(125,249,255,.95)";x.lineWidth=2;x.strokeRect(4,4,248,152);x.fillStyle="rgba(34,229,255,.10)";x.fillRect(4,4,248,152);x.font="12px monospace";x.fillStyle="rgba(200,255,255,.9)";
+  for(let r=0;r<8;r++)x.fillText(Array.from({length:22},()=>"0123456789ABCDEF"[(Math.random()*16)|0]).join(""),14,26+r*16);x.fillStyle="rgba(255,182,39,.9)";x.fillRect(200,10,40,6);return new THREE.CanvasTexture(c);};
+ const holo=[];[[-30,9,-24,0.7],[30,-6,-26,-0.7],[-34,-10,-34,0.5],[33,12,-38,-0.5],[0,22,-60,0]].forEach(([px,py,pz,ry],i)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(8,5),new THREE.MeshBasicMaterial({map:panelTex(),opacity:.7,side:THREE.DoubleSide,...ADD}));m.position.set(px,py,pz);m.rotation.y=ry;m.userData={py,ph:i*1.3};holo.push(m);S.add(m);});
+ // --- deep star/data field
+ const far=(()=>{const n=3000,p=new Float32Array(n*3);for(let i=0;i<n;i++){p[i*3]=(Math.random()-.5)*160;p[i*3+1]=(Math.random()-.5)*90;p[i*3+2]=-Math.random()*140+8;}return pts(p,0.35,0x9ffcff,.8);})();S.add(far);
+
+ // --- 3.6: volumetric light cone under the orb (soft additive shader, open cone)
+ const coneMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,uniforms:{t:{value:0},c:{value:new THREE.Color(0x5ff3ff)}},
+  vertexShader:`varying float vY;varying vec3 vN;varying vec3 vV;void main(){vY=uv.y;vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}`,
+  fragmentShader:`uniform float t;uniform vec3 c;varying float vY;varying vec3 vN;varying vec3 vV;void main(){float soft=pow(abs(dot(vN,vV)),2.2);float fall=smoothstep(0.,.85,vY)*(1.-smoothstep(.92,1.,vY));
+   float band=.75+.25*sin(vY*28.-t*3.);gl_FragColor=vec4(c*soft*fall*band*.22,1.);}`});
+ const cone=new THREE.Mesh(new THREE.ConeGeometry(6.5,15,72,1,true),coneMat);cone.position.y=-9.2;orb.add(cone);
+ // hex landing plate where the cone meets the floor
+ const hexTex=(()=>{const c=document.createElement("canvas");c.width=c.height=512;const x=c.getContext("2d"),r=16,h=r*Math.sqrt(3);x.strokeStyle="rgba(140,250,255,.9)";x.lineWidth=1.4;
+  for(let row=-1;row<512/h+1;row++)for(let col=-1;col<512/(r*1.5)+1;col++){const cx=col*r*1.5,cy=row*h+(col%2?h/2:0);x.beginPath();for(let k=0;k<6;k++){const a=k*Math.PI/3;x.lineTo(cx+Math.cos(a)*r*.92,cy+Math.sin(a)*r*.92);}x.closePath();x.stroke();}
+  const g=x.createRadialGradient(256,256,0,256,256,256);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(.55,"rgba(0,0,0,.2)");g.addColorStop(1,"rgba(0,0,0,1)");x.globalCompositeOperation="destination-out";x.fillStyle=g;x.fillRect(0,0,512,512);return new THREE.CanvasTexture(c);})();
+ const plate=new THREE.Mesh(new THREE.CircleGeometry(9,64),new THREE.MeshBasicMaterial({map:hexTex,color:0x5ff3ff,opacity:.5,...ADD}));plate.rotation.x=-Math.PI/2;plate.position.y=-16.6;orb.add(plate);
+ const plateRing=new THREE.Mesh(new THREE.RingGeometry(6.3,6.45,128),new THREE.MeshBasicMaterial({color:0x9ffcff,opacity:.55,side:THREE.DoubleSide,...ADD}));plateRing.rotation.x=-Math.PI/2;plateRing.position.y=-16.55;orb.add(plateRing);
+ // --- 3.6: drifting dust with depth (three layers: near/soft, mid, far/fine)
+ const dust=[[140,.55,.07,22],[700,.26,.3,40],[1600,.14,.45,70]].map(([n,sz,op,sp])=>{const p=new Float32Array(n*3);for(let i=0;i<n;i++){p[i*3]=(Math.random()-.5)*sp*1.8;p[i*3+1]=(Math.random()-.5)*sp;p[i*3+2]=8-Math.random()*sp*1.5;}const o=pts(p,sz,0xbff8ff,op);o.userData={sp};S.add(o);return o;});
+ // --- 3.8: abstract AI entity core (no face): morphing wireframe polyhedron, nested crystal, pulsing particle sphere, inbound data streams
+ const AV=new THREE.Group();orb.add(AV);
+ const mGeo=new THREE.IcosahedronGeometry(2.0,3),mBase=mGeo.attributes.position.array.slice(),mDir=[];
+ for(let i=0;i<mBase.length;i+=3){const l=Math.hypot(mBase[i],mBase[i+1],mBase[i+2]);mDir.push(mBase[i]/l,mBase[i+1]/l,mBase[i+2]/l);}
+ const morph=new THREE.Mesh(mGeo,new THREE.MeshBasicMaterial({color:0x7df9ff,wireframe:true,opacity:.28,...ADD}));AV.add(morph);
+ const crystal=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(1.05,0)),new THREE.LineBasicMaterial({color:0xdffcff,opacity:.85,...ADD}));AV.add(crystal);
+ const crystal2=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.TetrahedronGeometry(1.5,0)),new THREE.LineBasicMaterial({color:0x5ff3ff,opacity:.5,...ADD}));AV.add(crystal2);
+ const heart=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xeefeff,opacity:.9,...ADD}));heart.scale.set(2.2,2.2,1);AV.add(heart);
+ const PSN=1400,psp=new Float32Array(PSN*3),psd=[];for(let i=0;i<PSN;i++){const y=1-2*(i+.5)/PSN,rr=Math.sqrt(1-y*y),t=i*2.39996;psd.push(Math.cos(t)*rr,y,Math.sin(t)*rr);}
+ const pSph=pts(psp,0.12,0x9ffcff,.7);AV.add(pSph);
+ const DSN=48,DSP=14,dsPos=new Float32Array(DSN*DSP*3),dsDir=[],dsT=[];for(let s=0;s<DSN;s++){const a=Math.random()*6.283,b=Math.acos(2*Math.random()-1);dsDir.push([Math.sin(b)*Math.cos(a),Math.cos(b),Math.sin(b)*Math.sin(a)]);dsT.push(Math.random());}
+ const streams=pts(dsPos,0.16,0x5ff3ff,.75);AV.add(streams);
+ const avS={form:0,amp:0,spin:0};window.__vstate=window.__vstate||"idle";
+ if(window.vexOn){const o=window.vexOn;window.vexOn=(ev,d)=>{try{if(ev=="state"&&d)window.__vstate=d.state||"idle";}catch(e){}return o(ev,d);};}
+ function avTick(dt){const st=window.__vstate||"idle",ai=document.body.classList.contains("aionly"),awake=/listen|think|speak|work|busy/.test(st);
+  const think=st.indexOf("think")>=0,listen=st.indexOf("listen")>=0,speak=st.indexOf("speak")>=0;
+  avS.form+=(((awake||!ai)?1:0.35)-avS.form)*Math.min(1,dt*1.5);const A=window.__amp||0;avS.amp+=((speak?A:0)-avS.amp)*Math.min(1,dt*14);
+  avS.spin+=dt*(think?1.6:(listen?0.7:0.35));
+  const p=mGeo.attributes.position.array,k=0.09+avS.amp*0.55+(listen?0.06:0);
+  for(let i=0,j=0;i<p.length;i+=3,j+=3){const dx=mDir[j],dy=mDir[j+1],dz=mDir[j+2];const n=Math.sin(dx*3.1+T*1.3)*Math.cos(dy*2.7-T*1.1)+Math.sin(dz*3.7+T*0.9)*0.6;const R=2.0*avS.form*(1+n*k);p[i]=dx*R;p[i+1]=dy*R;p[i+2]=dz*R;}
+  mGeo.attributes.position.needsUpdate=true;morph.rotation.y=avS.spin*0.5;morph.rotation.x=Math.sin(T*.2)*.3;
+  crystal.rotation.y=-avS.spin*1.3;crystal.rotation.z=avS.spin*0.6;crystal.scale.setScalar((0.8+avS.amp*0.6+Math.sin(T*2)*0.04)*avS.form);
+  crystal2.rotation.x=avS.spin*0.9;crystal2.rotation.y=avS.spin*0.4;crystal2.scale.setScalar(avS.form*(1+avS.amp*0.3));
+  const tint=think?0xffd27a:0xdffcff;crystal.material.color.setHex(tint);heart.material.color.setHex(think?0xffe2a8:0xeefeff);
+  heart.scale.setScalar((1.6+avS.amp*2.4+Math.sin(T*2.4)*0.15)*avS.form);heart.material.opacity=(0.55+avS.amp*0.45)*((window.__look||{}).glow||1);
+  const ps=pSph.geometry.attributes.position.array,R2=2.75*avS.form*(1+avS.amp*0.25);for(let i=0;i<PSN;i++){const w=1+0.05*Math.sin(T*3+i*0.37)+avS.amp*0.12*Math.sin(T*11+i);ps[i*3]=psd[i*3]*R2*w;ps[i*3+1]=psd[i*3+1]*R2*w;ps[i*3+2]=psd[i*3+2]*R2*w;}
+  pSph.geometry.attributes.position.needsUpdate=true;pSph.rotation.y=-avS.spin*0.25;
+  const ds=streams.geometry.attributes.position.array,sp=(think?0.9:0.35)+avS.amp*0.8;for(let s=0;s<DSN;s++){dsT[s]-=dt*sp*(0.5+(s%5)*0.15);if(dsT[s]<0)dsT[s]+=1;const d=dsDir[s];
+   for(let q=0;q<DSP;q++){const r=2.9+((dsT[s]+q*0.018)%1)*6.5;const o=(s*DSP+q)*3;ds[o]=d[0]*r;ds[o+1]=d[1]*r;ds[o+2]=d[2]*r;}}
+  streams.geometry.attributes.position.needsUpdate=true;streams.material.opacity=(0.25+0.5*avS.form)*(low()?0:1);
+  shells.forEach((sh,i)=>sh.material.opacity=[.45,.35,.25][i]*(1-avS.form*(i==0?0.6:0.3)));core.material.opacity*=1-avS.form*0.6;const oc=avS.oc||(avS.oc=document.getElementById("orb"));if(oc){const v=(1-avS.form*0.65).toFixed(2);if(oc.style.opacity!==v)oc.style.opacity=v;}}
+ // --- 3.9: per-mode core shape and motion (blueprint view only; AI-only keeps the 3.8 entity)
+ function modeTint(){const md=document.body.dataset.mode||window.__mode||"blue";if(md===window.__tintM)return;window.__tintM=md;
+  const TC={blue:null,red:0xff3a4a,green:0x6ff0a0,purple:0xc08cff,gold:0xf0c060,pink:0xff70d0,white:0xf2f6ff,black:0x8a2a2a}[md];
+  [morph,pSph,streams,halo,core,...shells,...rings].forEach(o=>{if(!o||!o.material||!o.material.color)return;if(o.userData.c0==null)o.userData.c0=o.material.color.getHex();o.material.color.setHex(TC==null?o.userData.c0:TC);});}
+ function modeCore(){modeTint();const md=window.__bp?(window.__mode||"blue"):"blue";const P={
+  red:{sx:1,sy:1,cr:1.5,ps:0.85,sp:2.2,st:1},green:{sx:1,sy:1,cr:0.6,ps:1.15,sp:0.35,st:0},purple:{sx:1.25,sy:0.55,cr:0.9,ps:1,sp:1,st:1},
+  gold:{sx:0.8,sy:0.8,cr:1.9,ps:0.7,sp:0.6,st:0.4},pink:{sx:1,sy:1,cr:0.5,ps:1.5,sp:0.25,st:0.3},white:{sx:1.15,sy:0.18,cr:0.7,ps:1.1,sp:0.5,st:0},black:{sx:0.6,sy:0.6,cr:0.5,ps:0.6,sp:0.2,st:0}}[md];
+  if(!P){const t2={red:0xff3a4a,green:0x6ff0a0,purple:0xc08cff,gold:0xf0c060,pink:0xff70d0,white:0xf2f6ff,black:0x8a2a2a}[document.body.dataset.mode];if(t2){crystal.material.color.setHex(t2);heart.material.color.setHex(t2);}morph.scale.set(1,1,1);morph.visible=true;morph.position.y=0;pSph.scale.setScalar(1);return;}
+  morph.scale.set(P.sx,P.sy,P.sx);morph.rotation.y*=P.sp;crystal.scale.multiplyScalar(P.cr);pSph.scale.setScalar(P.ps);
+  streams.material.opacity*=P.st;
+  if(md=="red"){crystal.rotation.y*=1.8;morph.rotation.z=Math.sin(T*6)*.05;}
+  if(md=="green"){const b=1+Math.sin(T*0.8)*0.06;morph.scale.multiplyScalar(b);pSph.scale.multiplyScalar(b);}
+  if(md=="purple"){morph.scale.y*=1+Math.abs(Math.sin(T*4))*0.5+avS.amp;}
+  morph.visible=md!="gold";if(md=="gold")crystal2.rotation.y=T*0.4;
+  if(md=="pink"){pSph.rotation.y=T*0.05;pSph.rotation.x=Math.sin(T*.1)*.4;}
+  if(md=="white"){morph.rotation.x=Math.PI/2;morph.position.y=Math.sin(T*1.2)*1.6;}else morph.position.y=0;
+  if(md=="black"){heart.material.opacity*=0.35;}
+  const TC={red:0xff3a4a,green:0x6ff0a0,purple:0xc08cff,gold:0xf0c060,pink:0xff70d0,white:0xf2f6ff,black:0x8a2a2a}[md];
+  crystal.material.color.setHex(TC);heart.material.color.setHex(TC);}
+ // --- 4.1: startup presentation driver (intro41.js sets window.__i41 each frame)
+ const RB=rings.map(r=>({x:r.rotation.x,y:r.rotation.y,o:r.material.opacity}));
+ function i41scatter(arr,u,base,amt,sp){if(!u.s){const n=arr.length/3;u.s=new Float32Array(arr.length);u.d=new Float32Array(n);for(let j=0;j<n;j++){const th=Math.random()*6.283,ph=Math.acos(2*Math.random()-1),r=16+Math.random()*48;u.s[j*3]=Math.sin(ph)*Math.cos(th)*r;u.s[j*3+1]=Math.cos(ph)*r*.6;u.s[j*3+2]=Math.sin(ph)*Math.sin(th)*r;u.d[j]=Math.random()*.55+sp;}}
+  for(let j=0,n=u.d.length;j<n;j++){let p=(amt-u.d[j])/.45;p=p<0?0:p>1?1:p;p=1-(1-p)*(1-p)*(1-p);const o=j*3,sw=(1-p)*1.4,bx=base[o],bz=base[o+2];
+   const tx=u.s[o]+(bx-u.s[o])*p,ty=u.s[o+1]+(base[o+1]-u.s[o+1])*p,tz=u.s[o+2]+(bz-u.s[o+2])*p;arr[o]=tx*Math.cos(sw)-tz*Math.sin(sw);arr[o+1]=ty;arr[o+2]=tx*Math.sin(sw)+tz*Math.cos(sw);}}
+ function i41cam(I){if(!isFinite(C.position.x)||!isFinite(C.position.y)||!isFinite(C.position.z))C.position.set(0,0,16);if(!isFinite(I.cx)||!isFinite(I.cy)||!isFinite(I.cz))return;const op=orb.position,e=I.ce||0;const nx=C.position.x,ny=C.position.y,nz=C.position.z;
+  C.position.set(op.x+I.cx+(nx-op.x-I.cx)*e,op.y+I.cy+(ny-op.y-I.cy)*e,op.z+I.cz+(nz-op.z-I.cz)*e);C.lookAt(op.x*(1-e),op.y*(1-e),op.z+(-6-op.z)*e);}
+ function i41post(I,dt){
+  if(!I.on){shells.forEach(sh=>{const u=sh.userData;if(u.b){sh.geometry.attributes.position.array.set(u.b);sh.geometry.attributes.position.needsUpdate=true;}});
+   rings.forEach((r,k)=>{r.rotation.x=RB[k].x;r.rotation.y=RB[k].y;r.scale.setScalar(1);r.material.opacity=RB[k].o;});halo.scale.set(18,18,1);wires.forEach(w=>w.visible=true);
+   I.rst=false;window.__bpL=null;window.__tintM=null;window.__i41cc=null;return;}
+  const a=I.asm==null?1.2:I.asm;
+  shells.forEach((sh,i)=>{const u=sh.userData,arr=sh.geometry.attributes.position.array;if(!u.b)u.b=Float32Array.from(arr);if(a>=1.2&&u.fin)return;i41scatter(arr,u,u.b,a,i*.08);sh.geometry.attributes.position.needsUpdate=true;u.fin=a>=1.2;});
+  if(a<1.2){const ps=pSph.geometry.attributes.position.array,pu=pSph.userData;if(!pu.bb)pu.bb=new Float32Array(ps.length);pu.bb.set(ps);i41scatter(ps,pu,pu.bb,a,.1);pSph.geometry.attributes.position.needsUpdate=true;}
+  const cg=I.cg==null?1:I.cg;halo.material.opacity*=cg;core.material.opacity*=cg;heart.material.opacity*=cg;morph.scale.multiplyScalar(Math.max(.001,cg));crystal.scale.multiplyScalar(Math.max(.001,.3+.7*cg));
+  streams.material.opacity*=cg;wires.forEach(w=>w.visible=!!I.wv);rays.visible=rays.visible&&cg>.6;sats.forEach(q=>q.visible=q.visible&&cg>.95);
+  const p=I.pulse||0;halo.scale.set(18*(1+p*1.6),18*(1+p*1.6),1);core.scale.multiplyScalar(1+p*1.2);
+  rings.forEach((r,k)=>{const L=(I.rl||[1,1,1])[k];r.rotation.x=RB[k].x+(1-L)*(2.4+k)*Math.sin(T*1.7+k);r.rotation.y=RB[k].y+(1-L)*3*Math.cos(T*1.3+k);r.scale.setScalar(1+(1-L)*1.2);r.material.opacity=RB[k].o*Math.min(1,L*2.5+(I.rv||0));});}
+ // --- 3.6: post-processing (bloom + chromatic aberration + grain + vignette); falls back to plain render on any error or in low-FX
+ let CMP=null,bloom=null,FIN=null;
+ try{const [a,b,c,d,e]=await Promise.all(["EffectComposer","RenderPass","UnrealBloomPass","ShaderPass","OutputPass"].map(n=>import("./lib/jsm/"+n+".js")));
+  CMP=new a.EffectComposer(R);CMP.addPass(new b.RenderPass(S,C));bloom=new c.UnrealBloomPass(new THREE.Vector2(512,512),.5,.5,.5);CMP.addPass(bloom);
+  FIN=new d.ShaderPass({uniforms:{tDiffuse:{value:null},t:{value:0},ca:{value:.0022},gr:{value:.028},dof:{value:0},gl:{value:0}},
+   vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+   fragmentShader:`uniform sampler2D tDiffuse;uniform float t,ca,gr,dof,gl;varying vec2 vUv;float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233))+t*61.7)*43758.5453);}
+    float h1(float y){return fract(sin(y*91.7+floor(t*24.)*13.1)*43758.5453);}
+    void main(){vec2 uv=vUv;if(gl>0.){float bnd=floor(uv.y*36.);if(h1(bnd)>1.-gl*.6)uv.x+=(h1(bnd+7.)-.5)*gl*.08;}
+     vec2 d=uv-.5;float r2=dot(d,d);vec2 o=d*ca*(.4+r2*4.);vec4 col=texture2D(tDiffuse,uv);col.r=texture2D(tDiffuse,uv+o).r;col.b=texture2D(tDiffuse,uv-o).b;
+     if(dof>0.){float k=dof*smoothstep(.0,.16,r2+dof*.02);vec3 sm=vec3(0.);for(int i=0;i<8;i++){float a=float(i)*.785398;sm+=texture2D(tDiffuse,uv+vec2(cos(a),sin(a))*k*.010).rgb+texture2D(tDiffuse,uv+vec2(cos(a+.39),sin(a+.39))*k*.022).rgb;}col.rgb=mix(col.rgb,sm/16.,min(1.,k*1.6));}
+     col.rgb+=(h(vUv*vec2(1920.,1080.))-.5)*gr;col.rgb*=1.-smoothstep(.18,.62,r2)*.55;gl_FragColor=col;}`});
+  CMP.addPass(FIN);LOG("3D: post-processing on (bloom, CA, grain)");}catch(err){CMP=null;LOG("3D: post-processing unavailable: "+err.message);}
+ let W=0,H=0,last=0,T=0,orbPx=300;
+ function size(){const pr=low()?0.5:Math.min(1.25,devicePixelRatio||1);W=innerWidth;H=innerHeight;R.setPixelRatio(pr);R.setSize(W,H,false);if(CMP){CMP.setPixelRatio(pr);CMP.setSize(W,H);bloom.resolution.set(W*pr/2,H*pr/2);}C.aspect=W/H;C.updateProjectionMatrix();place();}
+ const oT=new THREE.Vector3(),oS={v:1};let unf=0;
+ function place(){if(window.__i41&&window.__i41.on)return;const o=document.getElementById("orb"),r=o&&o.getBoundingClientRect(),home=document.querySelector(".dash.hud").dataset.tab=="home";
+  if(!r||!r.width||!home){oT.set(0,1,-8);oS.v=1.1;return;}
+  const v=new THREE.Vector3((r.left+r.width/2)/W*2-1,-((r.top+r.height/2)/H*2-1),0.5).unproject(C),d=v.sub(C.position).normalize(),k=-C.position.z/d.z;oT.copy(C.position).addScaledVector(d,k);
+  const hw=Math.tan(C.fov*Math.PI/360)*C.position.z*2;oS.v=(r.width/H)*hw/11;}
+ new MutationObserver(()=>setTimeout(place,60)).observe(document.body,{attributes:true,attributeFilter:["class"]});
+ addEventListener("resize",size);setInterval(place,1000);size();orb.position.copy(oT);orb.scale.setScalar(oS.v);
+ let frames=0;
+ function frame(ts){requestAnimationFrame(frame);const lim=low()?66:15;if(vexHidden()||ts-last<lim)return;const dt=Math.min(.1,(ts-last)/1000||.033);last=ts;T+=dt;frames++;
+  const m=window.__mouse||{x:0,y:0};const ck=1-Math.pow(0.08,dt);C.position.x+=(m.x*2.6+Math.sin(T*.13)*.9-C.position.x)*ck;C.position.y+=(-m.y*1.6+Math.sin(T*.17)*.45-C.position.y)*ck;C.position.z=16+Math.sin(T*.09)*.6;C.lookAt(0,0,-6);{const I=window.__i41;if(I&&I.on){try{i41cam(I);}catch(e){if(!window.__i41e1){window.__i41e1=1;LOG("intro41 cam error: "+e.message);}}if(!I.dg&&T>0&&I.cz){I.dg=1;LOG("intro41 3d: orb="+orb.position.toArray().map(v=>v.toFixed(2))+" sc="+orb.scale.x.toFixed(2)+" cam="+C.position.toArray().map(v=>v.toFixed(2))+" oT="+oT.toArray().map(v=>v.toFixed(2))+" bp="+!!window.__bp+" W="+W+"x"+H+" cv="+cv.style.opacity+"/"+getComputedStyle(cv).opacity+"/"+getComputedStyle(cv).display+"/"+getComputedStyle(cv).visibility);}}}
+  shells[0].rotation.y+=dt*0.22;shells[1].rotation.y-=dt*0.12;shells[2].rotation.x+=dt*0.07;rings[0].rotation.z+=dt*0.4;rings[1].rotation.z-=dt*0.25;rings[2].rotation.z+=dt*0.15;
+  rays.rotation.z+=dt*0.05;rays.children.forEach((r,i)=>r.material.opacity=0.04+0.05*(0.5+0.5*Math.sin(T*1.3+i)));gauge.rotation.z-=dt*0.03;rRings.forEach(g=>g.rotation.z+=dt*g.userData.s);sats.forEach(q=>{const u=q.userData,a=T*u.s+u.p;q.position.set(Math.cos(a)*u.r,Math.sin(a)*u.r*Math.sin(u.tilt)*0.9,Math.sin(a)*u.r*Math.cos(u.tilt));});wires.forEach((w,i)=>{w.rotation.y+=dt*(i%2?-0.09:0.13)*(1+i*.2);w.rotation.x+=dt*0.03*(i-1.5);});
+  const LV=window.__lvl||{v:0,src:"",t:0},age=(performance.now()-LV.t)/1000,amp=age<0.4?Math.min(1,LV.v*6):0;window.__amp=(window.__amp||0)+((LV.src=="speak"?amp:0)-(window.__amp||0))*0.25;
+  const A=window.__amp;const pulse=1+Math.sin(T*2)*0.06+A*0.5;core.scale.setScalar(5*pulse);shells.forEach((sh,i)=>sh.scale.setScalar(1+A*(0.10+i*0.05)*(1+0.3*Math.sin(T*9+i))));
+  if(LV.src=="mic"&&amp>0.15&&age<0.2&&(!window.__rpT||T-window.__rpT>0.28)){window.__rpT=T;const rr=ripples.find(r=>!r.visible);if(rr){rr.visible=true;rr.userData.t=0;rr.scale.setScalar(1);}}
+  ripples.forEach(r=>{if(!r.visible)return;r.userData.t+=dt;const k=r.userData.t/1.4;r.scale.setScalar(1+k*2.6);r.material.opacity=.5*(1-k);if(k>=1)r.visible=false;});halo.material.opacity=(0.28+0.08*Math.sin(T*1.1))*((window.__look||{}).glow||1);core.material.opacity=.6*Math.min(1.3,((window.__look||{}).glow||1));
+  floor.position.z=(T*3)%2;holo.forEach(h=>{h.position.y=h.userData.py+Math.sin(T*0.6+h.userData.ph)*0.6;h.rotation.y+=Math.sin(T*0.3+h.userData.ph)*0.0015;});far.rotation.z+=dt*0.006;
+  const ai=document.body.classList.contains("aionly");unf+=((ai?0:1)-unf)*Math.min(1,dt*3);
+  orb.position.lerp(oT,Math.min(1,dt*4));const LK=window.__look||{};const JK=1-0.3*unf;orb.scale.setScalar(orb.scale.x+(oS.v*JK*(LK.orb||1)-orb.scale.x)*Math.min(1,dt*4));reactor.visible=gauge.visible=unf<0.5;
+  gm.opacity=.3*unf;floor.visible=unf>0.01;floor.scale.set(0.2+0.8*unf,1,1);
+  rays.visible=!low();holo.forEach(h=>{h.visible=!low()&&unf>0.01;h.material.opacity=.45*unf;h.scale.setScalar(0.3+0.7*unf);});
+  avTick(dt);modeCore();{const I=window.__i41;if(I&&(I.on||I.rst)){try{i41post(I,dt);}catch(e){if(!window.__i41e2){window.__i41e2=1;LOG("intro41 post error: "+e.message);}}}}{const nb=!!window.__bp,md=window.__mode||"blue",key=nb+md;if(key!==window.__bpL){window.__bpL=key;const bc=nb?({blue:0x04163a,red:0x14020a,green:0x03140d,purple:0x0d0418,gold:0x0a0803,pink:0x1a0628,white:0x0c1014,black:0x020203}[md]||0x04163a):0x01060c;R.setClearColor(bc,1);S.fog.color.setHex(nb?bc:0x00030a);window.__i41cc=null;}}{const I=window.__i41;if(I&&I.on){const cc=I.clear==null?-1:I.clear;if(cc!==window.__i41cc){window.__i41cc=cc;if(cc<0)window.__bpL=null;else{R.setClearColor(cc,1);S.fog.color.setHex(cc);}}}}coneMat.uniforms.t.value=T;cone.visible=plate.visible=plateRing.visible=!low();plate.rotation.z+=dt*.04;plateRing.material.opacity=.35+.2*Math.sin(T*1.7);
+  dust.forEach((d,i)=>{d.rotation.y+=dt*(.004+i*.003);d.position.y=Math.sin(T*.05+i)*1.5;d.visible=!low()||i==2;});
+  const BPm=!!window.__bp;rings.forEach(r=>r.visible=!BPm);sats.forEach(q=>q.visible=!BPm);if(BPm){halo.material.opacity*=.35;heart.scale.multiplyScalar(.55);core.material.opacity*=.4;}
+  if(CMP&&!low()){FIN.uniforms.t.value=T;bloom.strength=(BPm?.22:.5)+((window.__amp)||0)*.6;{const I=window.__i41||{},on=!!I.on;FIN.uniforms.ca.value=.0022+(on?(I.rgb||0)*.03:0);FIN.uniforms.dof.value=on?(I.dof||0):0;FIN.uniforms.gl.value=on?(I.gl||0):0;if(on)bloom.strength+=(I.flash||0)*2.4;}CMP.render(dt);}else R.render(S,C);if(frames==60)LOG("3D: rendering ok, "+W+"x"+H+" lowfx="+low());}
+ if(RM){R.render(S,C);addEventListener("resize",()=>setTimeout(()=>R.render(S,C),50));LOG("3D: reduced motion, static frame");}else requestAnimationFrame(frame);
+}
+</script>
+<script type="module" src="hand.js"></script>
+<script src="connections.js"></script>
+<script src="protocol.js"></script>
+<script src="fx.js"></script>
+<script src="modes.js"></script>
+<script src="fx36.js"></script>
+<script src="jhud.js"></script>
+<script src="themes.js"></script><script src="bp.js"></script><script src="v40.js"></script><script src="intro41.js"></script><script src="v42.js"></script><script src="tabs42.js"></script><script src="v43.js"></script>
+</body></html>

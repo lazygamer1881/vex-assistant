@@ -1,0 +1,14 @@
+# core (bundled)
+faster-whisper==1.2.1
+sounddevice==0.5.6
+edge-tts==7.2.8
+miniaudio==1.71
+pywebview==6.2.1
+pystray==0.19.5
+pillow==12.3.0
+websocket-client==1.9.2
+# voice pack (downloaded on first run, pinned + SHA-256 checked, see vex/voicepack.py)
+# ctranslate2==4.8.2
+# tokenizers==0.23.2
+# onnxruntime==1.30.0
+# vosk==0.3.45
